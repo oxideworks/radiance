@@ -120,6 +120,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="GameObjects\GameScene.cs" />
+    <Compile Include="GameObjects\IObstacle.cs" />
     <Compile Include="GameObjects\Obstacle.cs" />
     <Compile Include="GamePage.xaml.cs">
       <DependentUpon>GamePage.xaml</DependentUpon>
