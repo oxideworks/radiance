@@ -120,11 +120,13 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="GameObjects\GameScene.cs" />
+    <Compile Include="GameObjects\Obstacle.cs" />
     <Compile Include="GamePage.xaml.cs">
       <DependentUpon>GamePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Input\KeyboardInput.cs" />
     <Compile Include="Input\MouseInput.cs" />
+    <Compile Include="Primitives\Polymer.cs" />
     <Compile Include="Primitives\Rectangle.cs" />
     <Compile Include="Primitives\Vector2d.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
