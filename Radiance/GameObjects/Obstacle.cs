@@ -9,12 +9,12 @@ namespace Radiance.GameObjects
 {
     public class Obstacle : Polymer
     {
-        public Obstacle(List<Vector2d> points) : base(Sort(points))
+        public Obstacle(List<Vector> points) : base(Sort(points))
         {
 
         }
 
-        private static List<Vector2d> Sort(List<Vector2d> points)
+        private static List<Vector> Sort(List<Vector> points)
         {
             // Do sorting here.
             return points;

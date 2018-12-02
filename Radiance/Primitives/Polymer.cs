@@ -7,24 +7,24 @@ using System.Threading.Tasks;
 
 namespace Radiance.Primitives
 {
-    public class Polymer : IEnumerable<Vector2d>
+    public class Polymer : IEnumerable<Vector>
     {
-        public Polymer(List<Vector2d> points)
+        public Polymer(List<Vector> points)
         {
             this.points = points;
         }
 
-        public Polymer(Vector2d[] points) : this(points.ToList())
+        public Polymer(Vector[] points) : this(points.ToList())
         {
 
         }
 
-        private readonly List<Vector2d> points;
+        private readonly List<Vector> points;
 
-        public Vector2d this[int index] => points[index];
+        public Vector this[int index] => points[index];
         public int Length { get => points.Count; }
 
-        public IEnumerator<Vector2d> GetEnumerator()
+        public IEnumerator<Vector> GetEnumerator()
         {
             for (int i = 0; i < Length; i++)
                 yield return this[i];
