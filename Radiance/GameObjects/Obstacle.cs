@@ -21,6 +21,16 @@ namespace Radiance.GameObjects
 
         }
 
+        public bool Contains(Vector point)
+        {
+            return false;
+        }
+
+        public bool Intersects(Obstacle obstacle)
+        {
+            return false;
+        }
+
         private static List<Vector> Sort(List<Vector> points)
         {
             var origin = points

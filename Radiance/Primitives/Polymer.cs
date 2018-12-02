@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Radiance.Primitives
 {
-    public class Polymer : IEnumerable<Vector>
+    public class Polymer : IPolymer
     {
         public Polymer(List<Vector> points)
         {

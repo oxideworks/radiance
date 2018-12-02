@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace Radiance.GameObjects
 {
-    public interface IObstacle
+    public interface IObstacle : IPolymer
     {
         bool Contains(Vector point);
-        bool Intersects(IObstacle obstacle);
-
+        bool Intersects(Obstacle obstacle);
     }
 }
