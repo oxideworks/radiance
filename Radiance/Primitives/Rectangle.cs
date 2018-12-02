@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace Radiance.Primitives
 {
-    public class Rectangle
+    public class Rectangle : Polymer
     {
         public Rectangle(float side) : this(side, side)
         {
 
         }
 
-        public Rectangle(float width, float height)
+        public Rectangle(float width, float height) : base(new[] { new Vector2d(0, 0), new Vector2d(width, 0), new Vector2d(width, height), new Vector2d(0, height) })
         {
             Width = width;
             Height = height;

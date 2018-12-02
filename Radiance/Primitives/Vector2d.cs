@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Radiance.Primitives
 {
-    class Vector2d
+    public class Vector2d
     {
+
     }
 }
