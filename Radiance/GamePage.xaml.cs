@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Radiance.Render;
+using Radiance.GameObjects;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,18 +15,18 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
-
 namespace Radiance
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
-    public sealed partial class MainPage : Page
+    public sealed partial class GamePage : Page
     {
-        public MainPage()
+        private Renderer renderer;
+        private GameScene scene;
+        public GamePage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+            renderer = new Renderer(canvas);
+            scene = new GameScene(renderer);
+            canvas.Draw += (s, e) => scene.Tick();
         }
     }
 }
