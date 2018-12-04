@@ -1,4 +1,5 @@
 ﻿using Radiance.Primitives;
+using Radiance.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,40 +8,25 @@ using System.Threading.Tasks;
 
 namespace Radiance.GameObjects
 {
-    public class Obstacle : Polymer, IObstacle
+    public class Obstacle : IObstacle
     {
-        public Obstacle(List<Vector> points)
-            : base(Sort(points))
+        public Obstacle(Polymer polymer)
         {
-
+            if (polymer.Count < 3) throw new Exception("Орсен против вырожденных полимеров!");
+            var sorter = new PolymerSorter();
+            //Polymer = sorter.Sort(polymer, );
         }
 
-        public Obstacle(Vector[] points)
-            : this(points.ToList())
-        {
-
-        }
+        public IStonedPolymer Polymer { get; private set; }
 
         public bool Contains(Vector point)
         {
-            return false;
+            throw new NotImplementedException();
         }
 
-        public bool Intersects(Obstacle obstacle)
+        public bool Intersects(IObstacle obstacle)
         {
-            return false;
-        }
-
-        private static List<Vector> Sort(List<Vector> points)
-        {
-            var origin = points
-                .OrderBy(p => p.Y)
-                .ThenBy(p => p.X)
-                .First();
-            var ordered = points
-                .OrderByDescending(p => Math.Atan2(p.Y - origin.Y, p.X - origin.X))
-                .ToList();
-            return ordered;
+            throw new NotImplementedException();
         }
     }
 }

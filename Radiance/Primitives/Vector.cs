@@ -12,11 +12,18 @@ namespace Radiance.Primitives
     public class Vector
     {
         #region ctors
+
+        public Vector(float a) : this(a, a)
+        {
+
+        }
+
         public Vector(float x, float y)
         {
             X = x;
             Y = y;
         }
+
         #endregion
 
         #region props
