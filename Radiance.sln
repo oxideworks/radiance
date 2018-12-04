@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.28307.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Radiance", "Radiance\Radiance.csproj", "{E27BF8F1-06D3-4D3A-AE14-19FB85D6946B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RayCaster", "..\..\..\source\repos\RayCaster\RayCaster\RayCaster.csproj", "{3E6F963D-D020-4F9F-A75F-841E94B0CE3F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RayCaster", "RayCaster\RayCaster.csproj", "{3E6F963D-D020-4F9F-A75F-841E94B0CE3F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
