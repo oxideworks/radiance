@@ -59,7 +59,8 @@ namespace RayCaster
             var fi = .0;
             var dfi = 2 * Math.PI / lights;
             for (int i = 0; i < lights; i++)
-                RenderLightFor(position + TurnVector(shiftVector, fi + i * dfi));
+                //RenderLightFor(position + TurnVector(shiftVector, fi + i * dfi));
+                RenderLightFor(caster.Position + TurnVector(shiftVector, fi + i * dfi));
         }
 
         private void RenderLightFor(Vector2 position)
