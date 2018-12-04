@@ -25,6 +25,8 @@ namespace RayCaster
         public MainPage()
         {
             InitializeComponent();
+            canvas.ForceSoftwareRenderer = true;
+            //canvas.IsFixedTimeStep = true;
             renderer = new Renderer(canvas);
             scene = new GameScene(renderer);
             canvas.Draw += (s, e) => scene.Tick();

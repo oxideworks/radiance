@@ -75,7 +75,7 @@ namespace RayCaster
         public void RenderLight(Vector2[] points)
         {
             var geom = CanvasGeometry.CreatePolygon(canvas, points);
-            session.FillGeometry(geom, HexToColor("#22faefa3"));
+            session.FillGeometry(geom, HexToColor("#18F8EFBA"));
         }
 
         private Color HexToColor(string hex)

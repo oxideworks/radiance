@@ -19,7 +19,7 @@ namespace Radiance.GameObjects
 
         public void Tick()
         {
-            var obs = new Obstacle(new[] { new Vector(1, 2), new Vector(3, 4) });
+
         }
     }
 }
