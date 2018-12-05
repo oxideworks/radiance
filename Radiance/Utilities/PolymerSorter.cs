@@ -9,7 +9,7 @@ namespace Radiance.Utilities
 {
     public class PolymerSorter
     {
-        public Polymer Sort(IStonedPolymer polymer, Vector origin)
+        public Polymer Sort(IHardenedPolymer polymer, Vector origin)
         {
             var top = new Polymer();
             var bot = new Polymer();

@@ -17,7 +17,7 @@ namespace Radiance.GameObjects
             //Polymer = sorter.Sort(polymer, );
         }
 
-        public IStonedPolymer Polymer { get; private set; }
+        public IHardenedPolymer Polymer { get; private set; }
 
         public bool Contains(Vector point)
         {

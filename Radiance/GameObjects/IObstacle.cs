@@ -9,7 +9,7 @@ namespace Radiance.GameObjects
 {
     public interface IObstacle
     {
-        IStonedPolymer Polymer { get; }
+        IHardenedPolymer Polymer { get; }
         bool Contains(Vector point);
         bool Intersects(IObstacle obstacle);
     }

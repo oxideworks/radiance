@@ -2,12 +2,12 @@
 
 namespace Radiance.Primitives
 {
-    public interface IStonedPolymer : IReadOnlyList<Vector>
+    public interface IHardenedPolymer : IReadOnlyList<Vector>
     {
 
     }
 
-    public class Polymer : List<Vector>, IStonedPolymer
+    public class Polymer : List<Vector>, IHardenedPolymer
     {
         public Polymer()
         {
