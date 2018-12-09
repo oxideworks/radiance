@@ -1,10 +1,13 @@
 ﻿using Microsoft.Graphics.Canvas;
+using Microsoft.Graphics.Canvas.Geometry;
 using Microsoft.Graphics.Canvas.UI.Xaml;
+using Radiance.GameObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI;
 
 namespace Radiance.Render
 {
@@ -18,5 +21,33 @@ namespace Radiance.Render
 
         private readonly CanvasAnimatedControl canvas;
         private CanvasDrawingSession session;
+
+        public void RenderObstacles(IEnumerable<IObstacle> obstacles)
+        {
+            foreach (var obs in obstacles)
+            {
+                var geom = CanvasGeometry.CreatePolygon(canvas, obs.Polymer);
+                var color = HexToColor("#ff032939");
+                session.DrawGeometry(geom,
+                    color,
+                    3,
+                    new CanvasStrokeStyle
+                    {
+                        LineJoin = CanvasLineJoin.Round
+                    });
+
+            }
+        }
+
+        private Color HexToColor(string hex)
+        {
+            hex = hex.Replace("#", string.Empty);
+            var a = (byte)Convert.ToUInt32(hex.Substring(0, 2), 16);
+            var r = (byte)Convert.ToUInt32(hex.Substring(2, 2), 16);
+            var g = (byte)Convert.ToUInt32(hex.Substring(4, 2), 16);
+            var b = (byte)Convert.ToUInt32(hex.Substring(6, 2), 16);
+            var color = Color.FromArgb(a, r, g, b);
+            return color;
+        }
     }
 }

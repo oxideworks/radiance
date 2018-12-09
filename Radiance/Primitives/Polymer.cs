@@ -23,5 +23,10 @@ namespace Radiance.Primitives
         {
 
         }
+
+        //public static explicit operator Vector()
+        //{
+
+        //}
     }
 }
