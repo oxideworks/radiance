@@ -13,15 +13,41 @@ namespace Radiance.GameObjects
         public Obstacle(Polymer polymer)
         {
             if (polymer.Count < 3) throw new Exception("Орсен против вырожденных полимеров!");
-            var sorter = new PolymerSorter();
-            //Polymer = sorter.Sort(polymer, );
+            this.polymer = polymer;
+            segments = PairNodes();
         }
 
-        public IHardenedPolymer Polymer { get; private set; }
+        private List<Segment> PairNodes()
+        {
+            var segments = new List<Segment>();
+            for (int i = 0, j = Polymer.Count - 1; i < Polymer.Count; j = i++)
+                segments.Add(new Segment(polymer[i], polymer[j]));
+            return segments;
+        }
+
+        private readonly Polymer polymer;
+        private readonly List<Segment> segments;
+        public IHardenedPolymer Polymer { get => polymer; }
+        public IReadOnlyList<Segment> Segments { get => segments; }
+
+        private bool Cross(Vector point, Segment segment)
+        {
+            var (x, y) = (point.X, point.Y);
+            var (x1, y1) = (segment.A.X, segment.A.Y);
+            var (x2, y2) = (segment.B.X, segment.B.Y);
+            if (x1 == x2) return false;
+            if (x <= Math.Min(x1, x2) || x > Math.Max(x1, x2)) return false;
+            var ycross = (x - x1) * (y2 - y1) / (x2 - x1) + y1;
+            if (ycross > y) return false;
+            return true;
+        }
 
         public bool Contains(Vector point)
         {
-            throw new NotImplementedException();
+            var flag = false;
+            foreach (var segment in segments)
+                flag ^= Cross(point, segment);
+            return flag;
         }
 
         public bool Intersects(IObstacle obstacle)
