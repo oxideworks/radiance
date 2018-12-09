@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Radiance.Primitives;
+using System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 
@@ -17,7 +14,11 @@ namespace Radiance.Input
 
         private void MouseMoved(CoreWindow sender, PointerEventArgs args)
         {
-            throw new NotImplementedException();
+            var pos = args.CurrentPoint.Position;
+            var vect = new Vector((float)pos.X, (float)pos.Y);
+            OnMouseMoved?.Invoke(sender, vect);
         }
+
+        public event EventHandler<Vector> OnMouseMoved;
     }
 }

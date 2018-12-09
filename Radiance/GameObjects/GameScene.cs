@@ -16,6 +16,7 @@ namespace Radiance.GameObjects
         }
 
         private readonly IRenderer renderer;
+        private readonly List<IObstacle> obstacles;
 
         public void Tick()
         {

@@ -1,9 +1,6 @@
 ﻿using Radiance.Primitives;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Radiance.Utilities
 {
@@ -22,8 +19,8 @@ namespace Radiance.Utilities
                 else
                     bot.Add(op);
             }
-            float cos(Vector point) => Math.Sign(point.X) * point.X * point.X / point.LengthSquared;
 
+            float cos(Vector point) => Math.Sign(point.X) * point.X * point.X / point.LengthSquared;
             top = new Polymer(top.OrderByDescending(cos));
             bot = new Polymer(bot.OrderBy(cos));
 
