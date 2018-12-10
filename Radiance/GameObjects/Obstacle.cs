@@ -52,7 +52,11 @@ namespace Radiance.GameObjects
 
         public bool Intersects(IObstacle obstacle)
         {
-            throw new NotImplementedException();
+            foreach (var node in obstacle.Polymer)
+                if (Contains(node)) return true;
+            foreach (var node in Polymer)
+                if (obstacle.Contains(node)) return true;
+            return false;
         }
     }
 }
