@@ -25,15 +25,15 @@ namespace Radiance.GameObjects
             {
                 new Obstacle(new Polymer(new[] {
                 new Vector(10),
-                new Vector(20, 10),
-                new Vector(10,20)
+                new Vector(200, 10),
+                new Vector(10,200)
                 })),
 
                 new Obstacle(new Polymer(new[] {
                 new Vector(60),
-                new Vector(100,60),
-                new Vector(100),
-                new Vector(60,100)
+                new Vector(300,60),
+                new Vector(300),
+                new Vector(60,300)
                 }))
             };
             return obs;

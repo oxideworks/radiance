@@ -135,6 +135,7 @@
     <Compile Include="Render\IRenderer.cs" />
     <Compile Include="Render\Renderer.cs" />
     <Compile Include="Utilities\PolymerSorter.cs" />
+    <Compile Include="Utilities\ToVector2Adapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">

@@ -2,9 +2,12 @@
 using Microsoft.Graphics.Canvas.Geometry;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using Radiance.GameObjects;
+using Radiance.Primitives;
+using Radiance.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI;
@@ -26,16 +29,14 @@ namespace Radiance.Render
         {
             foreach (var obs in obstacles)
             {
-                var geom = CanvasGeometry.CreatePolygon(canvas, obs.Polymer);
-                var color = HexToColor("#ff032939");
-                session.DrawGeometry(geom,
+                var geom = CanvasGeometry.CreatePolygon(canvas, new ToVector2Adapter(obs));
+                var color = HexToColor("#ffc7ecee");
+                session.DrawGeometry(
+                    geom,
                     color,
                     3,
-                    new CanvasStrokeStyle
-                    {
-                        LineJoin = CanvasLineJoin.Round
-                    });
-
+                    new CanvasStrokeStyle { LineJoin = CanvasLineJoin.Round }
+                    );
             }
         }
 

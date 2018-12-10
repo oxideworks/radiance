@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Numerics;
 
 namespace Radiance.Primitives
 {
@@ -23,10 +24,5 @@ namespace Radiance.Primitives
         {
 
         }
-
-        //public static explicit operator Vector()
-        //{
-
-        //}
     }
 }
