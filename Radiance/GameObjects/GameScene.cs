@@ -1,5 +1,6 @@
-﻿using Radiance.Primitives;
-using Radiance.Render;
+﻿using Radiance.Render;
+using RadianceStandard.GameObjects;
+using RadianceStandard.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

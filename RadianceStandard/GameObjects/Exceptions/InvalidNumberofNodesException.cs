@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Radiance.GameObjects.Exceptions
+namespace RadianceStandard.GameObjects.Exceptions
 {
     public class InvalidNumberOfNodesException : Exception
     {

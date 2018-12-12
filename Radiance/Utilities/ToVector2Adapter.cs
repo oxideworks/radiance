@@ -1,11 +1,7 @@
-﻿using Radiance.GameObjects;
-using Radiance.Primitives;
-using System;
+﻿using RadianceStandard.GameObjects;
+using RadianceStandard.Primitives;
 using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Radiance.Utilities
 {
@@ -18,12 +14,12 @@ namespace Radiance.Utilities
         }
 
         public ToVector2Adapter(IHardenedPolymer polymer)
-            : this((List<Primitives.Vector>)polymer)
+            : this((List<RadianceStandard.Primitives.Vector>)polymer)
         {
 
         }
 
-        public ToVector2Adapter(List<Primitives.Vector> list)
+        public ToVector2Adapter(List<RadianceStandard.Primitives.Vector> list)
             : base(list.ConvertAll(node => new Vector2(node.X, node.Y)))
         {
 

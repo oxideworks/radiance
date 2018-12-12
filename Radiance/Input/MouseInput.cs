@@ -1,4 +1,4 @@
-﻿using Radiance.Primitives;
+﻿using RadianceStandard.Primitives;
 using System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;

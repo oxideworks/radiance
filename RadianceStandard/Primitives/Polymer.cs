@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Numerics;
 
-namespace Radiance.Primitives
+namespace RadianceStandard.Primitives
 {
     public interface IHardenedPolymer : IReadOnlyList<Vector>
     {

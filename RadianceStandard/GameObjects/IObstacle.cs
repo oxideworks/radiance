@@ -1,7 +1,7 @@
-﻿using Radiance.Primitives;
+﻿using RadianceStandard.Primitives;
 using System.Collections.Generic;
 
-namespace Radiance.GameObjects
+namespace RadianceStandard.GameObjects
 {
     public interface IObstacle
     {

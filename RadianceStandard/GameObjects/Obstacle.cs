@@ -1,18 +1,19 @@
-﻿using Radiance.Primitives;
-using Radiance.Utilities;
+﻿using RadianceStandard.GameObjects.Exceptions;
+using RadianceStandard.Primitives;
+using RadianceStandard.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Radiance.GameObjects
+namespace RadianceStandard.GameObjects
 {
     public class Obstacle : IObstacle
     {
         public Obstacle(Polymer polymer)
         {
-            if (polymer.Count < 3) throw new Exception("Орсен против вырожденных полимеров!");
+            if (polymer.Count < 3) throw new InvalidNumberOfNodesException("Орсен против вырожденных полимеров!");
             this.polymer = polymer;
             segments = PairNodes();
         }

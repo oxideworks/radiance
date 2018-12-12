@@ -19,8 +19,8 @@ namespace Radiance
 {
     public sealed partial class GamePage : Page
     {
-        private Renderer renderer;
-        private GameScene scene;
+        private readonly Renderer renderer;
+        private readonly GameScene scene;
         public GamePage()
         {
             InitializeComponent();

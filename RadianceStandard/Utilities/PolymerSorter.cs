@@ -1,8 +1,8 @@
-﻿using Radiance.Primitives;
+﻿using RadianceStandard.Primitives;
 using System;
 using System.Linq;
 
-namespace Radiance.Utilities
+namespace RadianceStandard.Utilities
 {
     public class PolymerSorter
     {

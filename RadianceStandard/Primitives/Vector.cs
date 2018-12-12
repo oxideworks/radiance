@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Radiance.Primitives
+namespace RadianceStandard.Primitives
 {
     /// <summary>
     /// 2D vector
