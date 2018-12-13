@@ -2,6 +2,7 @@
 using RadianceStandard.GameObjects;
 using RadianceStandard.GameObjects.Exceptions;
 using RadianceStandard.Primitives;
+using System;
 using System.Collections.Generic;
 
 namespace TestsCore
@@ -32,9 +33,9 @@ namespace TestsCore
             });
         }
 
-        
         [TestCase(1.5f, 0.5f, ExpectedResult = false)]
         [TestCase(0, 0, ExpectedResult = false)]
+        [TestCase(2, 0, ExpectedResult = false)]
         [TestCase(2, 2, ExpectedResult = false)]
         [TestCase(0, 1, ExpectedResult = false)]
         [TestCase(200, 200, ExpectedResult = false)]
@@ -46,6 +47,12 @@ namespace TestsCore
         public bool NodeInsideOrOutside(float vecX, float vecY)
         {
             return _obstacle.Contains(new Vector(vecX, vecY));
+        }
+
+        [TestCase]
+        public bool ObstacleIntersectsObstacle(Obstacle a, Obstacle b)
+        {
+            throw new NotImplementedException();
         }
     }
 }
