@@ -9,8 +9,8 @@ namespace TestsCore
     [TestFixture]
     public class ObstacleTest
     {
-        [Test]
-        public void TestMethod1()
+        [TestCase]
+        public void OnObstacleSpawnLackOfNodesCase()
         {
             List<Vector> nodes = new List<Vector>
             {
