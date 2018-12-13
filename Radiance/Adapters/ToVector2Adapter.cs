@@ -3,7 +3,7 @@ using RadianceStandard.Primitives;
 using System.Collections.Generic;
 using System.Numerics;
 
-namespace Radiance.Utilities
+namespace Radiance.Adapters
 {
     public class ToVector2Adapter : List<Vector2>
     {
