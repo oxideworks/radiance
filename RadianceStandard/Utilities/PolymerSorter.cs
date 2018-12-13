@@ -1,6 +1,7 @@
 ﻿using RadianceStandard.Primitives;
 using System;
 using System.Linq;
+using Windows.System;
 
 namespace RadianceStandard.Utilities
 {

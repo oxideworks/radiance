@@ -1,12 +1,11 @@
-﻿using Radiance.GameObjects;
-using RadianceStandard.GameObjects;
+﻿using RadianceStandard.GameObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Radiance.Render
+namespace RadianceStandard.IRender
 {
     public interface IRenderer
     {

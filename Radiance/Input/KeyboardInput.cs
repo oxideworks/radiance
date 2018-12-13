@@ -1,10 +1,11 @@
-﻿using System;
+﻿using RadianceStandard.IInput;
+using System;
 using Windows.System;
 using Windows.UI.Xaml;
 
 namespace Radiance.Input
 {
-    public class KeyboardInput
+    public class KeyboardInput : IKeyboardInput
     {
         public KeyboardInput()
         {

@@ -1,11 +1,12 @@
-﻿using RadianceStandard.Primitives;
+﻿using RadianceStandard.IInput;
+using RadianceStandard.Primitives;
 using System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 
 namespace Radiance.Input
 {
-    public class MouseInput
+    public class MouseInput : IMouseInput
     {
         public MouseInput()
         {

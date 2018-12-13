@@ -1,5 +1,5 @@
-﻿using Radiance.Render;
-using RadianceStandard.GameObjects;
+﻿using RadianceStandard.GameObjects;
+using RadianceStandard.IRender;
 using RadianceStandard.Primitives;
 using System;
 using System.Collections.Generic;

@@ -3,6 +3,7 @@ using Microsoft.Graphics.Canvas.Geometry;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using Radiance.Utilities;
 using RadianceStandard.GameObjects;
+using RadianceStandard.IRender;
 using System;
 using System.Collections.Generic;
 using Windows.UI;
