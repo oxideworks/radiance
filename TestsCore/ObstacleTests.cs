@@ -8,7 +8,7 @@ using System.Collections.Generic;
 namespace TestsCore
 {
     [TestFixture]
-    public class ObstacleTest
+    public partial class ObstacleTest
     {
         private static readonly List<Vector> _firstQuarterRightTriangleNodes = new List<Vector>
         {
@@ -60,7 +60,17 @@ namespace TestsCore
             return _obstacleFirstQuarterRightTriangle.Contains(new Vector(vecX, vecY));
         }
 
-        [TestCase()]
+        [TestCase(0, 0, ExpectedResult = true)]
+        [TestCase(-2, 0, ExpectedResult = true)]
+        [TestCase(-1, 0, ExpectedResult = true)]
+        [TestCase(-1, 1, ExpectedResult = false)]
+        [TestCase(-1, -1, ExpectedResult = true)]
+        [TestCase(-.5f, -.5f, ExpectedResult = false)]
+        [TestCase(0, -1, ExpectedResult = true)]
+        [TestCase(0, -2, ExpectedResult = true)]
+        [TestCase(-2, -2, ExpectedResult = false)]
+        [TestCase(-20, -20, ExpectedResult = false)]
+        [TestCase(2, -1, ExpectedResult = false)]
         public bool NodeInsideOrOutsideThirdQuarterRightTriangle(float vecX, float vecY)
         {
             return _obstacleThirdQuarterRightTriangle.Contains(new Vector(vecX, vecY));
