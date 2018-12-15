@@ -102,10 +102,11 @@ namespace RayCaster
             var result = new List<Vector2>();
             foreach (var ray in rays)
             {
+                var eps = 1e-6;
                 var t1s = new List<double>();
                 var R0x = position.X;
                 var R0y = position.Y;
-                var ax = (ray.X == 0) ? .005 : ray.X;
+                var ax = ray.X;
                 var ay = ray.Y;
                 foreach (var seg in segments)
                 {
@@ -113,11 +114,12 @@ namespace RayCaster
                     var S0y = seg.y1;
                     var bx = seg.x2 - seg.x1;
                     var by = seg.y2 - seg.y1;
-                    if (ax * by == ay * bx) continue;
+                    if (Math.Abs(ax * by - ay * bx) < eps) continue;
                     var t2 = (ax * (S0y - R0y) - ay * (S0x - R0x)) / (ay * bx - ax * by);
+                    if (t2 == float.NaN) { }
+#warning Тут division by ZERO
                     var t1 = (S0x - R0x + bx * t2) / ax;
-                    //var eps = -1e-6;
-                    var eps = 1e-6;
+                    if(t1 == float.NaN) { }
                     if (t1 < 0) continue;
                     if (t2 < -eps || t2 > 1 + eps) continue;
                     t1s.Add(t1);
@@ -127,7 +129,7 @@ namespace RayCaster
                 result.Add(new Vector2((float)(R0x + ax * mint1), (float)(R0y + ay * mint1)));
             }
             var sorter = new PointsSorter();
-            var sorted = sorter.Sort(result.ToArray(), position);//, caster.Position);
+            var sorted = sorter.Sort(result.ToArray(), position);
             return sorted;
         }
 

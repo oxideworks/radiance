@@ -39,6 +39,7 @@ namespace RayCaster
                 else
                     bot.Add(op);
             }
+#warning Тут NaN
             float cos(Vector2 p) => Math.Sign(p.X) * p.X * p.X / p.LengthSquared();
             top = top.OrderByDescending(cos).ToList();
             bot = bot.OrderBy(cos).ToList();
