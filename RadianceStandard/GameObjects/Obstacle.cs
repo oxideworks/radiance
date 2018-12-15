@@ -1,11 +1,7 @@
 ﻿using RadianceStandard.GameObjects.Exceptions;
 using RadianceStandard.Primitives;
-using RadianceStandard.Utilities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RadianceStandard.GameObjects
 {
@@ -13,7 +9,7 @@ namespace RadianceStandard.GameObjects
     {
         public Obstacle(Polymer polymer)
         {
-            if (polymer.Count < 3) throw new InvalidNumberOfNodesException("Орсен против вырожденных полимеров!");
+            if (polymer.Count < 3) throw new InvalidNumberOfNodesException();
             this.polymer = polymer;
             segments = PairNodes();
         }
@@ -36,19 +32,13 @@ namespace RadianceStandard.GameObjects
             var (x, y) = (point.X, point.Y);
             var (x1, y1) = (segment.A.X, segment.A.Y);
             var (x2, y2) = (segment.B.X, segment.B.Y);
+            if (x1 == x && x2 == x && !IsOutsideSegment(y, y1, y2)) return CrossState.Break;
             if (x1 == x2) return CrossState.False;
             var ycross = (x - x1) * (y2 - y1) / (x2 - x1) + y1;
             if (Math.Abs(ycross - y) < 1e-4) return CrossState.Break;
-            if (x < Math.Min(x1, x2) || x > Math.Max(x1, x2)) return CrossState.False;
+            if (IsOutsideSegment(x, x1, x2)) return CrossState.False;
             if (ycross > y) return CrossState.False;
             return CrossState.True;
-        }
-
-        private enum CrossState : sbyte
-        {
-            False = 0,
-            True = 1,
-            Break = -1
         }
 
         public bool Contains(Vector point)
@@ -71,5 +61,22 @@ namespace RadianceStandard.GameObjects
                 if (obstacle.Contains(node)) return true;
             return false;
         }
+
+        #region private shit
+
+        // !(coorToCheck є (coorMin; coorMax] )
+        private bool IsOutsideSegment(float coorToCheck, float coor1, float coor2)
+        {
+            return coorToCheck <= Math.Min(coor1, coor2) || coorToCheck > Math.Max(coor1, coor2);
+        }
+
+        private enum CrossState : sbyte
+        {
+            False = 0,
+            True = 1,
+            Break = -1
+        }
+
+        #endregion
     }
 }

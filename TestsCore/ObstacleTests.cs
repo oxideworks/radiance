@@ -75,7 +75,7 @@ namespace TestsCore
         [TestCase(-1, 0, ExpectedResult = true)]
         [TestCase(-1, 1, ExpectedResult = false)]
         [TestCase(-1, -1, ExpectedResult = true)]
-        [TestCase(-.5f, -.5f, ExpectedResult = false)]
+        [TestCase(-.5f, -.5f, ExpectedResult = true)]
         [TestCase(0, -1, ExpectedResult = true)]
         [TestCase(0, -2, ExpectedResult = true)]
         [TestCase(-2, -2, ExpectedResult = false)]

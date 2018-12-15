@@ -11,6 +11,7 @@ namespace RadianceStandard.GameObjects.Exceptions
         #region ctors
 
         public InvalidNumberOfNodesException()
+            : base("Invalid number of nodes!")
         {
 
         }
