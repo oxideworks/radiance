@@ -44,16 +44,18 @@ namespace RadianceStandard.GameObjects
         }
 
         /// <summary>
-        /// Если точка принадлежит контуру фигуры - FALSE
+        /// If the point belong to the edges of the shape - false.
         /// </summary>
         /// <param name="point"></param>
         /// <returns></returns>
         public bool Contains(Vector point)
         {
-            int flag = 0;
+            bool flag = false;
             foreach (var segment in segments)
-                flag += Cross(point, segment) ? 1 : 0;
-            return flag % 2 == 1;
+            {
+                flag ^= Cross(point, segment);
+            }
+            return flag;
         }
 
         public bool Intersects(IObstacle obstacle)
