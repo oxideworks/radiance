@@ -31,29 +31,34 @@ namespace RadianceStandard.GameObjects
         public IHardenedPolymer Polymer { get => polymer; }
         public IReadOnlyList<Segment> Segments { get => segments; }
 
-        private bool Cross(Vector point, Segment segment)
+        private CrossState Cross(Vector point, Segment segment)
         {
             var (x, y) = (point.X, point.Y);
             var (x1, y1) = (segment.A.X, segment.A.Y);
             var (x2, y2) = (segment.B.X, segment.B.Y);
-            if (x1 == x2) return false;
-            if (x <= Math.Min(x1, x2) || x > Math.Max(x1, x2)) return false;
+            if (x1 == x2) return CrossState.False;
             var ycross = (x - x1) * (y2 - y1) / (x2 - x1) + y1;
-            if (ycross > y) return false;
-            return true;
+            if (Math.Abs(ycross - y) < 1e-4) return CrossState.Break;
+            if (x < Math.Min(x1, x2) || x > Math.Max(x1, x2)) return CrossState.False;
+            if (ycross > y) return CrossState.False;
+            return CrossState.True;
         }
 
-        /// <summary>
-        /// If the point belong to the edges of the shape - false.
-        /// </summary>
-        /// <param name="point"></param>
-        /// <returns></returns>
+        private enum CrossState : sbyte
+        {
+            False = 0,
+            True = 1,
+            Break = -1
+        }
+
         public bool Contains(Vector point)
         {
             bool flag = false;
             foreach (var segment in segments)
             {
-                flag ^= Cross(point, segment);
+                CrossState state = Cross(point, segment);
+                if (state == CrossState.Break) return true;
+                flag ^= (state == CrossState.True) ? true : false;
             }
             return flag;
         }

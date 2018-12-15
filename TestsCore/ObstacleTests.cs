@@ -10,14 +10,25 @@ namespace TestsCore
     [TestFixture]
     public class ObstacleTest
     {
-        private static List<Vector> _nodes = new List<Vector>
+        private static readonly List<Vector> _firstQuarterRightTriangleNodes = new List<Vector>
         {
             new Vector(0, 0),
             new Vector(0, 2),
             new Vector(2, 0)
         };
 
-        private IObstacle _obstacle = new Obstacle(new Polymer(_nodes));
+        private static readonly IObstacle _obstacleFirstQuarterRightTriangle
+            = new Obstacle(new Polymer(_firstQuarterRightTriangleNodes));
+
+        private static readonly List<Vector> _thirdQuarterRightTriangleNodes = new List<Vector>
+        {
+            new Vector(0, 0),
+            new Vector(0, -2),
+            new Vector(-2, 0)
+        };
+
+        private static readonly IObstacle _obstacleThirdQuarterRightTriangle
+            = new Obstacle(new Polymer(_thirdQuarterRightTriangleNodes));
 
         [TestCase]
         public void OnObstacleSpawnLackOfNodesCase()
@@ -33,26 +44,32 @@ namespace TestsCore
             });
         }
 
-        [TestCase(1.5f, 0.5f, ExpectedResult = false)]
-        [TestCase(0, 0, ExpectedResult = false)]
-        [TestCase(2, 0, ExpectedResult = false)]
+        [TestCase(1.5f, 0.5f, ExpectedResult = true)]
+        [TestCase(0, 0, ExpectedResult = true)]
+        [TestCase(2, 0, ExpectedResult = true)]
+        [TestCase(0, 1, ExpectedResult = true)]
         [TestCase(2, 2, ExpectedResult = false)]
-        [TestCase(0, 1, ExpectedResult = false)]
         [TestCase(200, 200, ExpectedResult = false)]
         [TestCase(-200, -200, ExpectedResult = false)]
-        [TestCase(1f, 1f, ExpectedResult = false)]
+        [TestCase(1f, 1f, ExpectedResult = true)]
         [TestCase(0, 200, ExpectedResult = false)]
         [TestCase(2, -200, ExpectedResult = false)]
         [TestCase(.5f, .5f, ExpectedResult = true)]
-        public bool NodeInsideOrOutside(float vecX, float vecY)
+        public bool NodeInsideOrOutsideFirstQuarterRightTriangle(float vecX, float vecY)
         {
-            return _obstacle.Contains(new Vector(vecX, vecY));
+            return _obstacleFirstQuarterRightTriangle.Contains(new Vector(vecX, vecY));
         }
 
-        [TestCase]
-        public bool ObstacleIntersectsObstacle(Obstacle a, Obstacle b)
+        [TestCase()]
+        public bool NodeInsideOrOutsideThirdQuarterRightTriangle(float vecX, float vecY)
         {
-            throw new NotImplementedException();
+            return _obstacleThirdQuarterRightTriangle.Contains(new Vector(vecX, vecY));
         }
+
+        //[TestCase]
+        //public bool ObstacleIntersectsObstacle(Obstacle a, Obstacle b)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }
