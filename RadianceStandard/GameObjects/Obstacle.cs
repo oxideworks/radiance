@@ -35,7 +35,7 @@ namespace RadianceStandard.GameObjects
             if (x1 == x && x2 == x && !IsOutsideSegment(y, y1, y2)) return CrossState.Break;
             if (x1 == x2) return CrossState.False;
             var ycross = (x - x1) * (y2 - y1) / (x2 - x1) + y1;
-            if (Math.Abs(ycross - y) < 1e-4) return CrossState.Break;
+            if (Math.Abs(ycross - y) < GlobalConsts.EPSILON) return CrossState.Break;
             if (IsOutsideSegment(x, x1, x2)) return CrossState.False;
             if (ycross > y) return CrossState.False;
             return CrossState.True;
