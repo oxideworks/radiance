@@ -30,6 +30,16 @@ namespace TestsCore
         private static readonly IObstacle _obstacleThirdQuarterRightTriangle
             = new Obstacle(new Polymer(_thirdQuarterRightTriangleNodes));
 
+        private static readonly List<Vector> _isoscelesParallelToXAxisTriangleNodes = new List<Vector>
+        {
+            new Vector(-2, 0),
+            new Vector(2, 0),
+            new Vector(0, -2)
+        };
+
+        private static readonly IObstacle _obstacleParallelToXAxisIsoscelesTriangle
+            = new Obstacle(new Polymer(_isoscelesParallelToXAxisTriangleNodes));
+
         [TestCase]
         public void OnObstacleSpawnLackOfNodesCase()
         {
@@ -64,6 +74,21 @@ namespace TestsCore
         public bool NodeInsideOrOutsideThirdQuarterRightTriangle(float vecX, float vecY)
         {
             return _obstacleThirdQuarterRightTriangle.Contains(new Vector(vecX, vecY));
+        }
+
+        [TestCase(0f, 0f, ExpectedResult = true)]
+        [TestCase(0f, 1f, ExpectedResult = false)]
+        [TestCase(0f, -2f, ExpectedResult = true)]
+        [TestCase(0f, -1f, ExpectedResult = true)]
+        [TestCase(0f, -3f, ExpectedResult = false)]
+        [TestCase(2f, 0f, ExpectedResult = true)]
+        [TestCase(-2f, 0f, ExpectedResult = true)]
+        [TestCase(0f, -2f, ExpectedResult = true)]
+        [TestCase(1f, -1f, ExpectedResult = true)]
+        [TestCase(-1f, -1f, ExpectedResult = true)]
+        public bool NodeInsideOrOutsideParallelToXAxisIsoscelesTriangle(float vecX, float vecY)
+        {
+            return _obstacleParallelToXAxisIsoscelesTriangle.Contains(new Vector(vecX, vecY));
         }
 
         //[TestCase]
