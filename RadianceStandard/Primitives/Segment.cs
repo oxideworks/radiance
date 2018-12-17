@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RadianceStandard.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +16,7 @@ namespace RadianceStandard.Primitives
 
         public Segment(Polymer polymer)
         {
-            if (polymer.Count != 2) throw new Exception("Чето тут не так.");
+            if (polymer.Count != 2) throw new InvalidNumberOfNodesException("Чето тут не так.");
             this.polymer = polymer;
         }
 

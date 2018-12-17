@@ -57,6 +57,18 @@ namespace RadianceStandard.Primitives
             return this / Length;
         }
 
+        public override bool Equals(object obj)
+        {
+            if (obj is null) return false;
+            var vector = obj as Vector;
+            return X == vector.X && Y == vector.Y;
+        }
+
+        public override int GetHashCode()
+        {
+            return (X, Y).GetHashCode();
+        }
+
         #endregion
 
         #region explicit operations
@@ -84,6 +96,18 @@ namespace RadianceStandard.Primitives
         public static Vector operator -(Vector vector1, Vector vector2)
         {
             return vector1 + vector2 * (-1);
+        }
+
+        public static bool operator ==(Vector vector1, Vector vector2)
+        {
+            if (vector1 is null) return false;
+            if (vector2 is null) return false;
+            return vector1.Equals(vector2);
+        }
+
+        public static bool operator !=(Vector vector1, Vector vector2)
+        {
+            return !(vector1 == vector2);
         }
 
         #endregion

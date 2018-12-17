@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 using RadianceStandard.GameObjects;
-using RadianceStandard.GameObjects.Exceptions;
+using RadianceStandard.Exceptions;
 using RadianceStandard.Primitives;
 using System;
 using System.Collections.Generic;
@@ -129,7 +129,7 @@ namespace TestsCore
         {
             return _obstacleOctagon.Contains(new Vector(vecX, vecY));
         }
-        
+
 
         #endregion
 
