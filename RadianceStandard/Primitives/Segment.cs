@@ -43,7 +43,7 @@ namespace RadianceStandard.Primitives
             if (p.HasValue)
             {
                 var (t1, t2) = (p.Value.t1, p.Value.t2);
-                if (t1 >= 0 && t2 >= 0 && t2 <= 1)
+                if (t1 >= 0 && t1 <= 1 && t2 >= 0 && t2 <= 1)
                 {
                     point = thisRay.Origin + thisRay.Direction * t1;
                     return true;

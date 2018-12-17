@@ -44,10 +44,10 @@ namespace RadianceStandard.GameObjects
 
         public bool Intersects(IObstacle obstacle)
         {
-            foreach (var node in obstacle.Polymer)
-                if (Contains(node)) return true;
-            foreach (var node in Polymer)
-                if (obstacle.Contains(node)) return true;
+            foreach (var masterSegment in Segments)
+                foreach (var visitorSegment in obstacle.Segments)
+                    if (masterSegment.TryFindCrossingPoint(visitorSegment, out Vector _))
+                        return true;
             return false;
         }
         #endregion

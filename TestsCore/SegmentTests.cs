@@ -16,11 +16,18 @@ namespace TestsCore
                 var segment2 = new Segment(new Vector(-1, 0), new Vector(3, 0));
                 var segment3 = new Segment(new Vector(3, 0), new Vector(-1, 0));
                 var segment4 = new Segment(new Vector(-1, 1), new Vector(3, 1));
+                var segment5 = new Segment(new Vector(1, 0), new Vector(3, 0));
+                var segment6 = new Segment(new Vector(1, 0), new Vector(1, .5f));
+                var segment7 = new Segment(new Vector(1), new Vector(2, 0));
+                var segment8 = new Segment(new Vector(-1, 2), new Vector(1));
                 var crossingPoint = new Vector(0);
 
                 yield return (segment1, segment2, crossingPoint);
                 yield return (segment1, segment3, crossingPoint);
                 yield return (segment2, segment4, null);
+                yield return (segment1, segment5, null);
+                yield return (segment7, segment8, new Vector(1));
+                yield return (segment8, segment7, new Vector(1));
             }
         }
 

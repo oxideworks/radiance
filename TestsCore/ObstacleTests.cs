@@ -128,11 +128,10 @@ namespace TestsCore
         {
             return _obstacleOctagon.Contains(new Vector(vecX, vecY));
         }
-
-
         #endregion
 
 
+        #region Spawn Test
         [TestCase]
         public void TestSpawningWithLackOfNodes()
         {
@@ -146,11 +145,36 @@ namespace TestsCore
                 new Obstacle(new Polymer(nodes));
             });
         }
+        #endregion
 
-        //[TestCase]
-        //public bool ObstacleIntersectsObstacle(Obstacle a, Obstacle b)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        #region Intersects Test
+        private static IEnumerable<(Obstacle, Obstacle, bool)> ObstacleIntersectsSoruce
+        {
+            get
+            {
+                var poly1 = new Polymer(new[] { new Vector(0), new Vector(0, 1), new Vector(1, .5f) });
+                var poly2 = new Polymer(new[] { new Vector(0, .5f), new Vector(1, 1), new Vector(1, 0) });
+                var poly3 = new Polymer(new[] { new Vector(1), new Vector(2), new Vector(2, 0) });
+                yield return (new Obstacle(poly1), new Obstacle(poly2), true);
+                yield return (new Obstacle(poly1), new Obstacle(poly3), false);
+            }
+        }
+
+        [TestCaseSource(nameof(ObstacleIntersectsSoruce))]
+        public void TestObstacleIntersectsObstacle((Obstacle, Obstacle, bool) bundle)
+        {
+            var (a, b, expected) = bundle;
+            if (expected)
+            {
+                Assert.IsTrue(a.Intersects(b));
+                Assert.IsTrue(b.Intersects(a));
+            }
+            else
+            {
+                Assert.IsFalse(a.Intersects(b));
+                Assert.IsFalse(b.Intersects(a));
+            }
+        }
+        #endregion
     }
 }
