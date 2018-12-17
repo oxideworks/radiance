@@ -15,11 +15,13 @@ namespace TestsCore
         {
             get
             {
-                var r1 = new Ray(new Vector(2, 4), new Vector(11, 2));
-                var r2 = new Ray(new Vector(10, 1), new Vector(12, 3));
-                var r3 = new Ray(new Vector(1, 3), new Vector(10, 1));
-                yield return (r1, r2, new Vector(11, 2));
-                yield return (r1, r3, null);
+                var baseRay1 = new Ray(new Vector(2, 4), new Vector(13, 2));
+                var baseRay2 = new Ray(new Vector(2, 4), new Vector(24, 0));
+                var crossingBlockingRay = new Ray(new Vector(12, 1), new Vector(14, 3));
+                var parallelBlockingRay = new Ray(new Vector(1, 3), new Vector(12, 1));
+                yield return (baseRay1, crossingBlockingRay, new Vector(13, 2));
+                yield return (baseRay1, parallelBlockingRay, null);
+                yield return (baseRay2, crossingBlockingRay, new Vector(13, 2));
             }
         }
 
