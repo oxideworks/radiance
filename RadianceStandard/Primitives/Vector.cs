@@ -52,11 +52,6 @@ namespace RadianceStandard.Primitives
 
         #region methods
 
-        public Vector Normalize()
-        {
-            return this / Length;
-        }
-
         public override bool Equals(object obj)
         {
             if (obj is null) return false;
@@ -67,6 +62,16 @@ namespace RadianceStandard.Primitives
         public override int GetHashCode()
         {
             return (X, Y).GetHashCode();
+        }
+
+        public Vector Normalize()
+        {
+            return this / Length;
+        }
+
+        public (float x, float y) ToTuple()
+        {
+            return (X, Y);
         }
 
         #endregion
@@ -100,9 +105,9 @@ namespace RadianceStandard.Primitives
 
         public static bool operator ==(Vector vector1, Vector vector2)
         {
-            if (vector1 is null) return false;
-            if (vector2 is null) return false;
-            return vector1.Equals(vector2);
+            if (vector1 is null && vector2 is null) return true;
+            else if (vector1 is null || vector2 is null) return false;
+            else return vector1.Equals(vector2);
         }
 
         public static bool operator !=(Vector vector1, Vector vector2)

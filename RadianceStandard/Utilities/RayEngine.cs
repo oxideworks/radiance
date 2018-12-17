@@ -1,7 +1,4 @@
 ﻿using RadianceStandard.Primitives;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace RadianceStandard.Utilities
 {
@@ -24,18 +21,13 @@ namespace RadianceStandard.Utilities
 
         public (float t1, float t2)? FindCrossingParams(Ray r1, Ray r2)
         {
-            var d = r2.Origin - r1.Origin;
-            var (dx, dy) = (d.X, d.Y);
-            var (ax, ay) = (r1.Origin.X, r1.Origin.Y);
-            var (bx, by) = (r2.Origin.X, r2.Origin.Y);
-            var px = ax * by;
-            var py = ay * bx;
-            var pdif = px - py;
-            var psum = px + py;
-            if (pdif == 0) return null;
-            if (psum == 0) return null;
-            var t1 = (by * dx - bx * dy) / pdif;
-            var t2 = (ay * dx - ax * dy) / psum;
+            var (ax, ay) = r1.Direction.ToTuple();
+            var (bx, by) = r2.Direction.ToTuple();
+            var (dx, dy) = (r1.Origin - r2.Origin).ToTuple();
+            var q = ax * by - ay * bx;
+            if (q == 0) return null;
+            var t1 = (bx * dy - by * dx) / q;
+            var t2 = (ax * dy - ay * dx) / q;
             return (t1, t2);
         }
     }
