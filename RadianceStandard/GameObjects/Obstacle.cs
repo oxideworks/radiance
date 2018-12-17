@@ -42,6 +42,18 @@ namespace RadianceStandard.GameObjects
             return flag;
         }
 
+        /// <summary>
+        /// Partially contains obstacle
+        /// </summary>
+        /// <param name="obstacle"></param>
+        /// <returns></returns>
+        public bool Contains(IObstacle obstacle)
+        {
+            foreach (var node in obstacle.Polymer)
+                if (Contains(node)) return true;
+            return false;
+        }
+
         public bool Intersects(IObstacle obstacle)
         {
             foreach (var masterSegment in Segments)

@@ -9,7 +9,7 @@ namespace TestsCore
     [TestFixture]
     public class ObstacleTest
     {
-        #region FirstQuarterRightTriangleTests
+        #region Contains Point: FirstQuarterRightTriangleTests
         private static readonly List<Vector> _firstQuarterRightTriangleNodes = new List<Vector>
         {
             new Vector(0, 0),
@@ -31,6 +31,9 @@ namespace TestsCore
         [TestCase(0, 200, ExpectedResult = false)]
         [TestCase(2, -200, ExpectedResult = false)]
         [TestCase(.5f, .5f, ExpectedResult = true)]
+        [TestCase(3, 0, ExpectedResult = false)]
+        [TestCase(3, 1, ExpectedResult = false)]
+        [TestCase(-3, 0, ExpectedResult = false)]
         public bool TestIfNodeIsInsideOrOutsideFirstQuarterRightTriangle(float vecX, float vecY)
         {
             return _obstacleFirstQuarterRightTriangle.Contains(new Vector(vecX, vecY));
@@ -38,7 +41,7 @@ namespace TestsCore
 
         #endregion
 
-        #region ThirdQuarterRightTriangleTests
+        #region Contains Point: ThirdQuarterRightTriangleTests
         private static readonly List<Vector> _thirdQuarterRightTriangleNodes = new List<Vector>
         {
             new Vector(0, 0),
@@ -67,7 +70,7 @@ namespace TestsCore
 
         #endregion
 
-        #region IsoscelesParallelToXAxisTriangleTests
+        #region Contains Point: IsoscelesParallelToXAxisTriangleTests
 
         private static readonly List<Vector> _isoscelesParallelToXAxisTriangleNodes = new List<Vector>
         {
@@ -96,7 +99,7 @@ namespace TestsCore
 
         #endregion
 
-        #region OctagonTests
+        #region Contains Point: OctagonTests
 
         private static readonly List<Vector> _OctagonNodes = new List<Vector>
         {
@@ -173,6 +176,39 @@ namespace TestsCore
             {
                 Assert.IsFalse(a.Intersects(b));
                 Assert.IsFalse(b.Intersects(a));
+            }
+        }
+        #endregion
+
+        #region Contains Obstacle
+        private static IEnumerable<(Obstacle, Obstacle, bool)> ObstacleContainsObstacleSource
+        {
+            get
+            {
+                var outer1 = new Polymer(new[] { new Vector(0), new Vector(0, 4), new Vector(4), new Vector(4, 0) });
+                var inner1 = new Polymer(new[] { new Vector(1), new Vector(1, 3), new Vector(3), new Vector(3, 1) });
+                var inner2 = new Polymer(new[] { new Vector(4, 0), new Vector(4, 4), new Vector(8, 4), new Vector(8, 0) });
+                var inner3 = new Polymer(new[] { new Vector(4.001f, 0), new Vector(4.001f, 4), new Vector(8, 4), new Vector(8, 0) });
+
+                yield return (new Obstacle(outer1), new Obstacle(inner1), true);
+                yield return (new Obstacle(inner1), new Obstacle(outer1), false);
+                yield return (new Obstacle(inner1), new Obstacle(inner1), true);
+                yield return (new Obstacle(outer1), new Obstacle(inner2), true);
+                yield return (new Obstacle(outer1), new Obstacle(inner3), false);
+            }
+        }
+
+        [TestCaseSource(nameof(ObstacleContainsObstacleSource))]
+        public void TestObstacleContainsObstacle((Obstacle, Obstacle, bool) bundle)
+        {
+            var (outer, inner, expected) = bundle;
+            if (expected)
+            {
+                Assert.IsTrue(outer.Contains(inner));
+            }
+            else
+            {
+                Assert.IsFalse(outer.Contains(inner));
             }
         }
         #endregion
