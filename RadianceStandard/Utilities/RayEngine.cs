@@ -7,14 +7,14 @@ namespace RadianceStandard.Utilities
         public bool TryFindCrossingPoint(Ray r1, Ray r2, out Vector point)
         {
             var p = FindCrossingParams(r1, r2);
-            if (p.HasValue)
+            if (p.HasValue && p.Value.t1 > 0) // (t1 > 0) its ray, not line
             {
                 point = r1.Origin + r1.Direction * p.Value.t1;
                 return true;
             }
             else
             {
-                point = new Vector(0);
+                point = null;
                 return false;
             }
         }

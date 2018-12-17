@@ -1,8 +1,7 @@
 ﻿using NUnit.Framework;
-using RadianceStandard.GameObjects;
 using RadianceStandard.Exceptions;
+using RadianceStandard.GameObjects;
 using RadianceStandard.Primitives;
-using System;
 using System.Collections.Generic;
 
 namespace TestsCore
@@ -32,7 +31,7 @@ namespace TestsCore
         [TestCase(0, 200, ExpectedResult = false)]
         [TestCase(2, -200, ExpectedResult = false)]
         [TestCase(.5f, .5f, ExpectedResult = true)]
-        public bool NodeInsideOrOutsideFirstQuarterRightTriangle(float vecX, float vecY)
+        public bool TestIfNodeIsInsideOrOutsideFirstQuarterRightTriangle(float vecX, float vecY)
         {
             return _obstacleFirstQuarterRightTriangle.Contains(new Vector(vecX, vecY));
         }
@@ -61,7 +60,7 @@ namespace TestsCore
         [TestCase(-2, -2, ExpectedResult = false)]
         [TestCase(-20, -20, ExpectedResult = false)]
         [TestCase(2, -1, ExpectedResult = false)]
-        public bool NodeInsideOrOutsideThirdQuarterRightTriangle(float vecX, float vecY)
+        public bool TestIfNodeIsInsideOrOutsideThirdQuarterRightTriangle(float vecX, float vecY)
         {
             return _obstacleThirdQuarterRightTriangle.Contains(new Vector(vecX, vecY));
         }
@@ -90,7 +89,7 @@ namespace TestsCore
         [TestCase(0f, -2f, ExpectedResult = true)]
         [TestCase(1f, -1f, ExpectedResult = true)]
         [TestCase(-1f, -1f, ExpectedResult = true)]
-        public bool NodeInsideOrOutsideParallelToXAxisIsoscelesTriangle(float vecX, float vecY)
+        public bool TestIfNodeIsInsideOrOutsideParallelToXAxisIsoscelesTriangle(float vecX, float vecY)
         {
             return _obstacleParallelToXAxisIsoscelesTriangle.Contains(new Vector(vecX, vecY));
         }
@@ -125,7 +124,7 @@ namespace TestsCore
         [TestCase(2f, 0f, ExpectedResult = false)]
         [TestCase(0f, -20f, ExpectedResult = false)]
         [TestCase(0f, 20f, ExpectedResult = false)]
-        public bool NodeInsideOrOutsideOctagon(float vecX, float vecY)
+        public bool TestIfNodeIsInsideOrOutsideOctagon(float vecX, float vecY)
         {
             return _obstacleOctagon.Contains(new Vector(vecX, vecY));
         }
@@ -135,7 +134,7 @@ namespace TestsCore
 
 
         [TestCase]
-        public void OnObstacleSpawnLackOfNodesCase()
+        public void TestSpawningWithLackOfNodes()
         {
             List<Vector> nodes = new List<Vector>
             {

@@ -1,9 +1,7 @@
 ﻿using NUnit.Framework;
 using RadianceStandard.Primitives;
 using RadianceStandard.Utilities;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace TestsCore
 {
@@ -67,7 +65,8 @@ namespace TestsCore
             if (received.HasValue)
             {
                 var (received1, received2) = received.Value;
-                Assert.IsTrue(received1 == expected1 && received2 == expected2);
+                Assert.AreEqual(received1, expected1);
+                Assert.AreEqual(received2, expected2);
             }
             else
             {
