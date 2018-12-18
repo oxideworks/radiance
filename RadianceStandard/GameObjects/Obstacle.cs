@@ -83,7 +83,7 @@ namespace RadianceStandard.GameObjects
             if (x1 == x && x2 == x && !IsNotOnSegment(y, y1, y2)) return CrossingState.Break;
             if (x1 == x2) return CrossingState.False;
             var ycross = (x - x1) * (y2 - y1) / (x2 - x1) + y1;
-            if (Math.Abs(ycross - y) < GlobalConsts.EPSILON) return CrossingState.Break;
+            if (Math.Abs(ycross - y) < GlobalConsts.EPSILON && !IsNotOnSegment(x, x1, x2)) return CrossingState.Break;
             if (IsNotOnSegment(x, x1, x2) || IsOnRightOfSegment(x, x1, x2)) return CrossingState.False;
             if (ycross > y) return CrossingState.False;
             return CrossingState.True;
