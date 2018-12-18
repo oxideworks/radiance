@@ -42,15 +42,17 @@ namespace RadianceStandard.GameObjects
             return flag;
         }
 
-        /// <summary>
-        /// Partially contains obstacle
-        /// </summary>
-        /// <param name="obstacle"></param>
-        /// <returns></returns>
-        public bool Contains(IObstacle obstacle)
+        public bool CompletelyContains(IObstacle obstacle)
         {
             foreach (var node in obstacle.Polymer)
-                if (Contains(node)) return true;
+                if (!Contains(node)) return false;
+            return true;
+        }
+
+        public bool PartiallyContains(IObstacle obstacle)
+        {
+            if (Intersects(obstacle)) return true;
+            if (CompletelyContains(obstacle)) return true;
             return false;
         }
 

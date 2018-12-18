@@ -8,7 +8,8 @@ namespace RadianceStandard.GameObjects
         IHardenedPolymer Polymer { get; }
         IReadOnlyList<Segment> Segments { get; }
         bool Contains(Vector point);
-        bool Contains(IObstacle obstacle);
+        bool CompletelyContains(IObstacle obstacle);
+        bool PartiallyContains(IObstacle obstacle);
         bool Intersects(IObstacle obstacle);
     }
 }

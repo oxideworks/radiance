@@ -180,8 +180,8 @@ namespace TestsCore
         }
         #endregion
 
-        #region Contains Obstacle
-        private static IEnumerable<(Obstacle, Obstacle, bool)> ObstacleContainsObstacleSource
+        #region Partially contains obstacle test
+        private static IEnumerable<(Obstacle, Obstacle, bool)> ObstaclePartiallyContainsObstacleSource
         {
             get
             {
@@ -189,26 +189,63 @@ namespace TestsCore
                 var inner1 = new Polymer(new[] { new Vector(1), new Vector(1, 3), new Vector(3), new Vector(3, 1) });
                 var inner2 = new Polymer(new[] { new Vector(4, 0), new Vector(4, 4), new Vector(8, 4), new Vector(8, 0) });
                 var inner3 = new Polymer(new[] { new Vector(4.001f, 0), new Vector(4.001f, 4), new Vector(8, 4), new Vector(8, 0) });
+                var inner4 = new Polymer(new[] { new Vector(3, 0), new Vector(3, 4), new Vector(8, 4), new Vector(8, 0) });
 
                 yield return (new Obstacle(outer1), new Obstacle(inner1), true);
                 yield return (new Obstacle(inner1), new Obstacle(outer1), false);
                 yield return (new Obstacle(inner1), new Obstacle(inner1), true);
                 yield return (new Obstacle(outer1), new Obstacle(inner2), true);
                 yield return (new Obstacle(outer1), new Obstacle(inner3), false);
+                yield return (new Obstacle(outer1), new Obstacle(inner4), true);
             }
         }
 
-        [TestCaseSource(nameof(ObstacleContainsObstacleSource))]
-        public void TestObstacleContainsObstacle((Obstacle, Obstacle, bool) bundle)
+        [TestCaseSource(nameof(ObstaclePartiallyContainsObstacleSource))]
+        public void TestObstaclePartiallyContainsObstacle((Obstacle, Obstacle, bool) bundle)
         {
             var (outer, inner, expected) = bundle;
             if (expected)
             {
-                Assert.IsTrue(outer.Contains(inner));
+                Assert.IsTrue(outer.PartiallyContains(inner));
             }
             else
             {
-                Assert.IsFalse(outer.Contains(inner));
+                Assert.IsFalse(outer.PartiallyContains(inner));
+            }
+        }
+        #endregion
+
+        #region Completely contains obstacle test
+        private static IEnumerable<(Obstacle, Obstacle, bool)> ObstacleCompletelyContainsObstacleSource
+        {
+            get
+            {
+                var outer1 = new Polymer(new[] { new Vector(0), new Vector(0, 4), new Vector(4), new Vector(4, 0) });
+                var inner1 = new Polymer(new[] { new Vector(1), new Vector(1, 3), new Vector(3), new Vector(3, 1) });
+                var inner2 = new Polymer(new[] { new Vector(4, 0), new Vector(4, 4), new Vector(8, 4), new Vector(8, 0) });
+                var inner3 = new Polymer(new[] { new Vector(4.001f, 0), new Vector(4.001f, 4), new Vector(8, 4), new Vector(8, 0) });
+                var inner4 = new Polymer(new[] { new Vector(3, 0), new Vector(3, 4), new Vector(8, 4), new Vector(8, 0) });
+
+                yield return (new Obstacle(outer1), new Obstacle(inner1), true);
+                yield return (new Obstacle(inner1), new Obstacle(outer1), false);
+                yield return (new Obstacle(inner1), new Obstacle(inner1), true);
+                yield return (new Obstacle(outer1), new Obstacle(inner2), false);
+                yield return (new Obstacle(outer1), new Obstacle(inner3), false);
+                yield return (new Obstacle(outer1), new Obstacle(inner4), false);
+            }
+        }
+
+        [TestCaseSource(nameof(ObstacleCompletelyContainsObstacleSource))]
+        public void TestObstacleCompletelyContainsObstacle((Obstacle, Obstacle, bool) bundle)
+        {
+            var (outer, inner, expected) = bundle;
+            if (expected)
+            {
+                Assert.IsTrue(outer.CompletelyContains(inner));
+            }
+            else
+            {
+                Assert.IsFalse(outer.CompletelyContains(inner));
             }
         }
         #endregion
