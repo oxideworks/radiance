@@ -1,32 +1,29 @@
 ﻿using RadianceStandard.Exceptions;
 using RadianceStandard.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RadianceStandard.Primitives
 {
     public class Segment
     {
         #region Ctors
-        public Segment(Vector a, Vector b) : this(new Polymer(new[] { a, b }))
+        public Segment(Vector a, Vector b)
+            : this(new Polymer(new[] { a, b }))
         {
 
         }
 
-        public Segment(Polymer polymer)
+        public Segment(IHardenedPolymer polymer)
         {
-            if (polymer.Count != 2) throw new InvalidNumberOfNodesException("Чето тут не так.");
-            this.polymer = polymer;
+            if (polymer.Count != 2)
+                throw new InvalidNumberOfNodesException("Чето тут не так.");
+            Polymer = polymer;
         }
         #endregion
 
         #region Properties
-        public Vector A { get => polymer[0]; }
-        public Vector B { get => polymer[1]; }
-        public IHardenedPolymer Polymer { get => polymer; }
+        public Vector A { get => Polymer[0]; }
+        public Vector B { get => Polymer[1]; }
+        public IHardenedPolymer Polymer { get; }
         #endregion
 
         #region Methods
@@ -52,10 +49,7 @@ namespace RadianceStandard.Primitives
             point = null;
             return false;
         }
-        #endregion
 
-        #region privates
-        private readonly Polymer polymer;
-        #endregion 
+        #endregion
     }
 }
