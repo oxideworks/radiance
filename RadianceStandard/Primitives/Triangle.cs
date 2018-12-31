@@ -7,7 +7,7 @@ namespace RadianceStandard.Primitives
 {
     public class Triangle
     {
-        #region ctors
+        #region Ctors
         public Triangle(Vector a, Vector b, Vector c, List<Triangle> neighbours)
             : this(new Polymer(new[] { a, b, c }), neighbours)
         {
