@@ -4,7 +4,7 @@ using RadianceStandard.GameObjects;
 using RadianceStandard.Primitives;
 using System.Collections.Generic;
 
-namespace TestsCore
+namespace TestsCore.GameObjectsTests
 {
     [TestFixture]
     public class ObstacleTest

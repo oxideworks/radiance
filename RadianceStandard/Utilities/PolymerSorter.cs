@@ -8,10 +8,13 @@ namespace RadianceStandard.Utilities
     {
         public Polymer Sort(IHardenedPolymer polymer, Vector origin)
         {
-            var top = new Polymer();
-            var bot = new Polymer();
+            Polymer localPolymer = new Polymer(polymer);
+            localPolymer.Remove(origin);
+            
+            Polymer top = new Polymer();
+            Polymer bot = new Polymer();
 
-            foreach (var node in polymer)
+            foreach (var node in localPolymer)
             {
                 var op = node - origin;
                 if (op.Y >= 0)
@@ -24,13 +27,14 @@ namespace RadianceStandard.Utilities
             top = new Polymer(top.OrderByDescending(cos));
             bot = new Polymer(bot.OrderBy(cos));
 
-            var sorted = new Polymer();
+            Polymer sorted = new Polymer();
+            sorted.Add(origin);
             foreach (var p in top)
                 sorted.Add(p + origin);
             foreach (var p in bot)
                 sorted.Add(p + origin);
 
-            return sorted;
+            return sorted; 
         }
     }
 }

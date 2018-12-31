@@ -11,7 +11,9 @@ namespace RadianceStandard.Utilities
         public IHardenedPolymer ComputeConvexHull(IHardenedPolymer polymer)
         {
             if (polymer.Count < 3)
-                throw new InvalidNumberOfNodesException("Ну вы децыбел.");
+            {
+                throw new InvalidNumberOfNodesException("Ну вы и децыбел.");
+            }
             return GrahamScan(polymer);
         }
         #endregion
@@ -25,15 +27,17 @@ namespace RadianceStandard.Utilities
             var stack = new Stack<Vector>();
             stack.Push(ordered[0]);
             stack.Push(ordered[1]);
-            stack.Push(ordered[2]);
-            for (int i = 3; i < ordered.Count; i++)
+            //stack.Push(ordered[2]);
+            for (int i = 2; i < ordered.Count; i++)
             {
-                while (CCW(stack.Skip(1).First(), stack.Peek(), ordered[i]))
+                while (stack.Count >= 2 && !CCW(stack.Skip(1).First(), stack.Peek(), ordered[i]))
+                {
                     stack.Pop();
+                }
                 stack.Push(ordered[i]);
             }
 
-            var hull = new Polymer(stack);
+            Polymer hull = new Polymer(stack.Reverse());
             return hull;
         }
 
@@ -43,8 +47,10 @@ namespace RadianceStandard.Utilities
             var (x2, y2) = p1.ToTuple();
             var (x3, y3) = pi.ToTuple();
             var loc = (y2 - y1) * (x3 - x2) - (y3 - y2) * (x2 - x1);
-            if (loc < 0) return true;
-            else return false;
+            if (loc < 0)
+                return true;
+            else
+                return false;
         }
         #endregion
     }

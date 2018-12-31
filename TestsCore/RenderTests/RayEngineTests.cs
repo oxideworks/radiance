@@ -3,7 +3,7 @@ using RadianceStandard.Primitives;
 using RadianceStandard.Utilities;
 using System.Collections.Generic;
 
-namespace TestsCore
+namespace TestsCore.RenderTests
 {
     [TestFixture]
     public class RayEngineTests

@@ -2,7 +2,7 @@
 using RadianceStandard.Primitives;
 using System.Collections.Generic;
 
-namespace TestsCore
+namespace TestsCore.PrimitivesTests
 {
     [TestFixture]
     public class SegmentTests
