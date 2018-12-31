@@ -28,7 +28,7 @@ namespace RadianceStandard.Utilities
             stack.Push(ordered[2]);
             for (int i = 3; i < ordered.Count; i++)
             {
-                while (!CCW(stack.Skip(1).First(), stack.Peek(), ordered[i]))
+                while (CCW(stack.Skip(1).First(), stack.Peek(), ordered[i]))
                     stack.Pop();
                 stack.Push(ordered[i]);
             }
