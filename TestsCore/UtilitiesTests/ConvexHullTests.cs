@@ -22,7 +22,7 @@ namespace TestsCore.UtilitiesTests
 
                 List<float> listIn2 = new List<float>() { 0f, 0f, 6f, 1f, 6f, 10f, 6f, 12f, 1.5f, 12f, -1f, 7f,
                     0f, 3f, 1f, 4f, 2f, 6f, 5f, 9f, 3f, 8f};
-                List<float> listOut2 = new List<float>() { 1f, 0f, 6f, 1f, 6f, 10f, 6f, 12f, 1.5f, 12f, -1f, 7f };
+                List<float> listOut2 = new List<float>() { 0f, 0f, 6f, 1f, 6f, 10f, 6f, 12f, 1.5f, 12f, -1f, 7f };
 
                 yield return (FillPolymerWithVectors(listIn1), FillPolymerWithVectors(listOut1));
                 yield return (FillPolymerWithVectors(listIn2), FillPolymerWithVectors(listOut2));
@@ -43,6 +43,10 @@ namespace TestsCore.UtilitiesTests
                     Assert.AreEqual(expectedPolymer[i].X, polymerRes[i].X);
                     Assert.AreEqual(expectedPolymer[i].Y, polymerRes[i].Y);
                 }
+            }
+            else
+            {
+                Assert.Fail();
             }
         }
         #endregion
