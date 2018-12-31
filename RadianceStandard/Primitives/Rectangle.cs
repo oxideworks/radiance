@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RadianceStandard.Primitives
+﻿namespace RadianceStandard.Primitives
 {
     public class Rectangle
     {
@@ -41,8 +35,11 @@ namespace RadianceStandard.Primitives
 
         #region privates
         private static Vector[] VectorForRectangleCreator(float width, float height)
-            => new[] { new Vector(0, 0), new Vector(width, 0),
-                       new Vector(width, height), new Vector(0, height)};
+        {
+            return new[] { new Vector(0, 0), new Vector(width, 0),
+                           new Vector(width, height), new Vector(0, height)
+            };
+        }
         #endregion
 
     }
