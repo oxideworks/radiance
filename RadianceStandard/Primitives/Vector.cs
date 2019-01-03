@@ -11,7 +11,7 @@ namespace RadianceStandard.Primitives
     /// </summary>
     public class Vector
     {
-        #region ctors
+        #region Ctors
 
         public Vector(float a) : this(a, a)
         {
@@ -26,7 +26,7 @@ namespace RadianceStandard.Primitives
 
         #endregion
 
-        #region props
+        #region Props
 
         public float X { get; }
 
@@ -50,7 +50,7 @@ namespace RadianceStandard.Primitives
 
         #endregion
 
-        #region methods
+        #region Methods
 
         public override bool Equals(object obj)
         {
@@ -62,6 +62,11 @@ namespace RadianceStandard.Primitives
         public override int GetHashCode()
         {
             return (X, Y).GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return $"({X}; {Y})";
         }
 
         public Vector Normalize()
@@ -76,7 +81,7 @@ namespace RadianceStandard.Primitives
 
         #endregion
 
-        #region explicit operations
+        #region Explicit Operations
 
         public static Vector operator /(Vector vector, float a)
         {

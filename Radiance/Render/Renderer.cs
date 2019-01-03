@@ -4,8 +4,10 @@ using Microsoft.Graphics.Canvas.UI.Xaml;
 using Radiance.Adapters;
 using RadianceStandard.GameObjects;
 using RadianceStandard.IRender;
+using RadianceStandard.Primitives;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Windows.UI;
 
 namespace Radiance.Render
@@ -24,16 +26,60 @@ namespace Radiance.Render
         public void RenderObstacles(IEnumerable<IObstacle> obstacles)
         {
             foreach (var obs in obstacles)
-            {
-                var geom = CanvasGeometry.CreatePolygon(canvas, new ToVector2Adapter(obs));
-                var color = HexToColor("#ffc7ecee");
-                session.DrawGeometry(
-                    geom,
-                    color,
-                    3,
-                    new CanvasStrokeStyle { LineJoin = CanvasLineJoin.Round }
-                    );
-            }
+                RenderObstacle(obs);
+        }
+
+        public void RenderObstacle(IObstacle obs)
+        {
+            var geom = CanvasGeometry.CreatePolygon(canvas, new ToVector2ListAdapter(obs));
+            var color = HexToColor("#ffc7ecee");
+            session.DrawGeometry(
+                geom,
+                color,
+                3,
+                new CanvasStrokeStyle { LineJoin = CanvasLineJoin.Round }
+            );
+        }
+
+        public void RenderSegments(IEnumerable<Segment> segments)
+        {
+            foreach (var segment in segments)
+                RenderSegment(segment);
+        }
+
+        public void RenderSegment(Segment segment)
+        {
+            session.DrawLine(
+                new ToVector2Adapter(segment.A),
+                new ToVector2Adapter(segment.B),
+                HexToColor("#ff6ab04c")
+            );
+        }
+
+        public void RenderPoints(IEnumerable<Vector> points)
+        {
+            foreach (var point in points.Take(1))
+                RenderPoint(point);
+
+            foreach (var point in points.Skip(1))
+                RenderPoint(point);
+        }
+
+        public void RenderPoint(Vector point)
+        {
+            session.FillCircle(
+                new ToVector2Adapter(point),
+                3,
+                HexToColor("#ffeb4d4b")
+            );
+        }
+
+        public void RenderText(string text, Vector point)
+        {
+            session.DrawText(text,
+                new ToVector2Adapter(point),
+                HexToColor("#ffdff9fb")
+            );
         }
 
         private Color HexToColor(string hex)

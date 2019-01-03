@@ -20,6 +20,15 @@ namespace Radiance.Input
             OnMouseMoved?.Invoke(sender, vect);
         }
 
+        public Vector MousePosition
+        {
+            get
+            {
+                var pos = Window.Current.CoreWindow.PointerPosition;
+                return new Vector((float)pos.X, (float)pos.Y);
+            }
+        }
+
         public event EventHandler<Vector> OnMouseMoved;
     }
 }

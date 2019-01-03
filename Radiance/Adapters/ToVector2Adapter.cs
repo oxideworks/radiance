@@ -1,33 +1,19 @@
-﻿using RadianceStandard.GameObjects;
-using RadianceStandard.Primitives;
-using System.Collections.Generic;
-using System.Numerics;
+﻿using System.Numerics;
 
 namespace Radiance.Adapters
 {
-    public class ToVector2Adapter : List<Vector2>
+    public class ToVector2Adapter
     {
-        public ToVector2Adapter(IObstacle obstacle)
-            : this(obstacle.Polymer)
+        public ToVector2Adapter(RadianceStandard.Primitives.Vector vector)
         {
-
+            vector2 = new Vector2(vector.X, vector.Y);
         }
 
-        public ToVector2Adapter(IHardenedPolymer polymer)
-            : this((List<RadianceStandard.Primitives.Vector>)polymer)
+        private Vector2 vector2;
+
+        public static implicit operator Vector2(ToVector2Adapter adapter)
         {
-
-        }
-
-        public ToVector2Adapter(List<RadianceStandard.Primitives.Vector> list)
-            : base(list.ConvertAll(node => new Vector2(node.X, node.Y)))
-        {
-
-        }
-
-        public static implicit operator Vector2[] (ToVector2Adapter adapter)
-        {
-            return adapter.ToArray();
+            return adapter.vector2;
         }
     }
 }
