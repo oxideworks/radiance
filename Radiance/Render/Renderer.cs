@@ -59,18 +59,25 @@ namespace Radiance.Render
         public void RenderPoints(IEnumerable<Vector> points)
         {
             foreach (var point in points.Take(1))
-                RenderPoint(point);
+            {
+                RenderPoint(point, "#ff7ed6df");
+            }
 
+            var counter = 0;
             foreach (var point in points.Skip(1))
+            {
+                counter++;
                 RenderPoint(point);
+                RenderText(counter.ToString(), point);
+            }
         }
 
-        public void RenderPoint(Vector point)
+        public void RenderPoint(Vector point, string color = "#ff686de0")
         {
             session.FillCircle(
                 new ToVector2Adapter(point),
                 3,
-                HexToColor("#ffeb4d4b")
+                HexToColor(color)
             );
         }
 
