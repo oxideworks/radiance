@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -135,14 +134,26 @@ namespace RadianceStandard.Primitives
             return @string.Trim();
         }
 
-        static public Matrix FromFile(string path)
+        public static Matrix FromFile(string path)
         {
             var lines = File.ReadAllLines(path);
             var matrix = FromLines(lines);
             return matrix;
         }
 
-        static public Matrix FromLines(IEnumerable<string> lines)
+        public static Matrix FromList(List<List<double>> lines)
+        {
+            if (lines.Count < 1) return new Matrix(new MatrixSize(0));
+            var n = lines.Count;
+            var m = lines.First().Count;
+            var matrix = new Matrix(n, m);
+            for (int i = 0; i < n; i++)
+                for (int j = 0; j < m; j++)
+                    matrix[i, j] = lines[i][j];
+            return matrix;
+        }
+
+        public static Matrix FromLines(IEnumerable<string> lines)
         {
             var n = lines.Where(x => x.Trim() != string.Empty).Count();
             var m = lines.Select(x => x.Split(' ').Length).Aggregate((max, x) => max = Math.Max(max, x));
@@ -162,7 +173,7 @@ namespace RadianceStandard.Primitives
             return matrix;
         }
 
-        static public Matrix Randomize(MatrixSize size)
+        public static Matrix Randomize(MatrixSize size)
         {
             var m = new Matrix(size);
             var rnd = new Random();
@@ -198,6 +209,25 @@ namespace RadianceStandard.Primitives
             return (L, U);
         }
 
-    }
+        public override bool Equals(object obj)
+        {
+            if (!(obj is Matrix))
+                return false;
+            return Equals((Matrix)obj);
+        }
 
+        private bool Equals(Matrix matrix)
+        {
+            if (Size.Max != matrix.Size.Max) return false;
+            for (int i = 0; i < Size.Height; i++)
+                for (int j = 0; j < Size.Width; j++)
+                    if (this[i, j] != matrix[i, j]) return false;
+            return true;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+    }
 }

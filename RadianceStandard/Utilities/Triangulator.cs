@@ -48,14 +48,28 @@ namespace RadianceStandard.Utilities
             return (C, D);
         }
 
-        private bool DelaunayCondition(Triangle A, Vector point)
+        private bool DelaunayCondition(Triangle triangle, Vector point)
         {
-            throw new NotImplementedException();
+            return (triangle.Center - point).LengthSquared >= triangle.RadiusSquared;
         }
 
-        private void TryFlip(Triangle A, Triangle B)
+        private bool TryFlip(Triangle A, Triangle B, out (Triangle C, Triangle D) bundle)
         {
-            throw new NotImplementedException();
+            bool tryFlip(Triangle a, Triangle b, out (Triangle C, Triangle D) pack)
+            {
+                foreach (var node in a.Polymer)
+                {
+                    if (!DelaunayCondition(b, node))
+                    {
+                        pack = Flip(a, b);
+                        return true;
+                    }
+                }
+                pack = (null, null);
+                return false;
+            }
+
+            return tryFlip(A, B, out bundle) || tryFlip(B, A, out bundle);
         }
         #endregion
     }

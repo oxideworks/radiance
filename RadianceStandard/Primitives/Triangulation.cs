@@ -40,6 +40,8 @@ namespace RadianceStandard.Primitives
 
         public void Add(Triangle triangle)
         {
+            // Add...
+            TryResizeCache();
             throw new NotImplementedException();
         }
 

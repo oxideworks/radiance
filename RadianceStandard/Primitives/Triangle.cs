@@ -1,4 +1,5 @@
 ﻿using RadianceStandard.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -40,9 +41,61 @@ namespace RadianceStandard.Primitives
         }
         #endregion
 
+        #region fields
+        private Vector center;
+        private double? radiusSquared;
+        #endregion
+
         #region Props
-        public IHardenedPolymer Polymer;
-        public List<Triangle> Neighbours;
+        public IHardenedPolymer Polymer { get; set; }
+        public List<Triangle> Neighbours { get; set; }
+        public Vector Center
+        {
+            get
+            {
+                if (center == null)
+                    center = ComputeCenter();
+                return center;
+            }
+        }
+        public double RadiusSquared
+        {
+            get
+            {
+                if (radiusSquared.HasValue)
+                    radiusSquared = ComputeRadius();
+                return radiusSquared.Value;
+            }
+        }
+        #endregion
+
+        #region privates
+        private double a, b, c, d;
+        private Vector ComputeCenter()
+        {
+            var list = new List<List<double>> {
+                new List<double> (4),
+                new List<double> { Polymer[0].LengthSquared, Polymer[0].X, Polymer[0].Y, 1 },
+                new List<double> { Polymer[1].LengthSquared, Polymer[1].X, Polymer[1].Y, 1 },
+                new List<double> { Polymer[2].LengthSquared, Polymer[2].X, Polymer[2].Y, 1 },
+            };
+            Matrix matrix = Matrix.FromList(list);
+            a = matrix.CutMinor(0, 0).Determinant.Value;
+            b = matrix.CutMinor(0, 1).Determinant.Value;
+            c = matrix.CutMinor(0, 2).Determinant.Value;
+            d = matrix.CutMinor(0, 3).Determinant.Value;
+
+            return new Vector((float)(b / (2 * a)), (float)(-1 * c / (2 * a)));
+        }
+
+        private double ComputeRadius()
+        {
+            if (Center == null)
+            {
+                ComputeCenter();
+            }
+            return (float)((b * b + c * c - 4 * a * d) / (4 * a * a));
+        }
         #endregion
     }
 }
