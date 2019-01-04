@@ -19,7 +19,7 @@ namespace RadianceStandard.Utilities
         {
             var mutual = A.Polymer.Intersect(B.Polymer).ToList();
             if (mutual.Count != 2)
-                throw new Exception("");
+                throw new Exception("This triangles don`t constitute quadrilateral!");
             var union = A.Polymer.Union(B.Polymer).ToList();
 
             Vector m0 = mutual[0];
