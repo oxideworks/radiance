@@ -19,7 +19,7 @@ namespace RadianceStandard.Primitives
 
         }
 
-        public Polymer(Polymer polymer) : this((IEnumerable<Vector>)polymer)
+        public Polymer(IHardenedPolymer polymer) : this((IEnumerable<Vector>)polymer)
         {
 
         }
