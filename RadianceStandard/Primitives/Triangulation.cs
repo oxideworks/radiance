@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace RadianceStandard.Primitives
 {
@@ -7,23 +7,25 @@ namespace RadianceStandard.Primitives
     {
         #region Ctors
         public Triangulation()
-            : this(new Triangle[0])
         {
             cache = new Triangle[cacheSize, cacheSize];
+            triangles = new List<Triangle>();
+            points = new Polymer();
         }
 
         public Triangulation(IEnumerable<Triangle> triangles)
+            : this()
         {
-            this.triangles = new List<Triangle>(triangles);
-            //cache = new Triangle[cacheSize, cacheSize];
-            TryResizeCache();
+            foreach (var triangle in triangles)
+                Add(triangle);
         }
         #endregion
 
         #region fields
         private int cacheSize = 2;
         private Triangle[,] cache;
-        private List<Triangle> triangles;
+        private readonly List<Triangle> triangles;
+        private readonly Polymer points;
         #endregion
 
         #region Props
@@ -33,38 +35,38 @@ namespace RadianceStandard.Primitives
         #region Methods
         public Triangle Find(Vector point)
         {
-            var close = cache[(int)point.X / cacheSize, (int)point.Y / cacheSize];
-            // close.FindFriend(point)...
-            throw new NotImplementedException();
+            var close = cache[(int)(point.X / cacheSize), (int)(point.Y / cacheSize)];
+            return close.FindFriend(point);
         }
 
         public void Add(Triangle triangle)
         {
-            // Add...
+            triangles.Add(triangle);
+            points.AddRange(triangle.Polymer.Except(points));
             TryResizeCache();
-            throw new NotImplementedException();
         }
-
-        // Do we need to remove from cache?
-        // NO.
-        //public void Remove(Triangle triangle)
-        //{
-        //    throw new NotImplementedException();
-        //}
         #endregion
 
         #region privates
         private void TryResizeCache()
         {
-            // Числа точек
-            if (triangles.Count > cache.Length * GlobalConsts.CACHE_EXPANSION_CONSTANT)
+            if (points.Count > cache.Length * GlobalConsts.CACHE_EXPANSION_CONSTANT)
                 ResizeCache();
         }
 
         private void ResizeCache()
         {
-            var newCache = new Triangle[cacheSize * 2, cacheSize * 2];
-            // do resising...
+            Triangle[,] newCache = new Triangle[cacheSize * 2, cacheSize * 2];
+            for (int i = 0; i < cacheSize; i++)
+                for (int j = 0; j < cacheSize; j++)
+                {
+                    newCache[i * 2, j * 2] = cache[i, j];
+                    newCache[i * 2, j * 2 + 1] = cache[i, j];
+                    newCache[i * 2 + 1, j * 2] = cache[i, j];
+                    newCache[i * 2 + 1, j * 2 + 1] = cache[i, j];
+                }
+            cache = newCache;
+            cacheSize *= 2;
             TryResizeCache();
         }
         #endregion

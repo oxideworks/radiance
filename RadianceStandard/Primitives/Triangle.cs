@@ -1,4 +1,5 @@
 ﻿using RadianceStandard.Exceptions;
+using RadianceStandard.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -65,6 +66,35 @@ namespace RadianceStandard.Primitives
                 if (radiusSquared.HasValue)
                     radiusSquared = ComputeRadius();
                 return radiusSquared.Value;
+            }
+        }
+        #endregion
+
+        #region Methods
+        public Triangle FindFriend(Vector point)
+        {
+            var rayEngine = new RayEngine();
+            Segment segment = null;
+            var ray = new Ray(Center, point);
+            foreach (var edge in Polymer.ToSegments())
+            {
+                if (rayEngine.TryFindCrossingPoint(ray, edge, out Vector foo))
+                {
+                    segment = edge;
+                    break;
+                }
+            }
+            if (segment != null)
+            {
+                var triangle = Neighbours.First(n => n.Polymer.ToSegments().Any(y => y == segment));
+                if (triangle.Polymer.ContainsPoint(point))
+                    return triangle;
+                else
+                    return triangle.FindFriend(point);
+            }
+            else
+            {
+                return null;
             }
         }
         #endregion

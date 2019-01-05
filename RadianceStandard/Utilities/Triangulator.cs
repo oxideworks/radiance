@@ -10,6 +10,15 @@ namespace RadianceStandard.Utilities
         #region Methods
         public Triangulation Triangulate(IHardenedPolymer polymer)
         {
+            var triangulation = new Triangulation();
+            var huller = new ConvexHuller();
+            var hull = huller.ComputeConvexHull(polymer);
+            var origin = hull.First();
+            for (int i = 1; i < hull.Count - 1; i++)
+            {
+                triangulation.Add(new Triangle(origin, hull[i], hull[i + 1]));
+            }
+
             throw new NotImplementedException();
         }
         #endregion
