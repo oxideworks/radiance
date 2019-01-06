@@ -114,12 +114,28 @@ namespace RayCaster
                     var S0y = seg.y1;
                     var bx = seg.x2 - seg.x1;
                     var by = seg.y2 - seg.y1;
-                    if (Math.Abs(ax * by - ay * bx) < eps) continue;
-                    var t2 = (ax * (S0y - R0y) - ay * (S0x - R0x)) / (ay * bx - ax * by);
-                    if (t2 == float.NaN) { }
-#warning Тут division by ZERO
-                    var t1 = (S0x - R0x + bx * t2) / ax;
-                    if(t1 == float.NaN) { }
+                    var q = ax * by - ay * bx;
+                    if (q == 0) return null;
+                    //if (Math.Abs(ax * by - ay * bx) < eps) continue;
+                    //var t2 = (ax * (S0y - R0y) - ay * (S0x - R0x)) / (ay * bx - ax * by);
+                    //if (t2 == float.NaN) { }
+                    var dx = R0x - S0x;
+                    var dy = R0y - S0y;
+                    var t1 = (bx * dy - by * dx) / q;
+                    var t2 = (ax * dy - ay * dx) / q;
+                    //#warning Тут division by ZERO
+                    //var (ax, ay) = r1.Direction.ToTuple();
+                    //var (bx, by) = r2.Direction.ToTuple();
+                    //var (dx, dy) = (r1.Origin - r2.Origin).ToTuple();
+                    //var q = ax * by - ay * bx;
+                    //if (q == 0) return null;
+                    //var t1 = (bx * dy - by * dx) / q;
+                    //var t2 = (ax * dy - ay * dx) / q;
+                    //return (t1, t2);
+
+                    //var t1 = (S0x - R0x + bx * t2) / ax;
+                    //if (t1 == float.NaN) { }
+                    //var t1 = 
                     if (t1 < 0) continue;
                     if (t2 < -eps || t2 > 1 + eps) continue;
                     t1s.Add(t1);
