@@ -50,6 +50,33 @@ namespace RadianceStandard.Primitives
             return false;
         }
 
+        public override bool Equals(object obj)
+        {
+            if (!(obj is Segment)) return false;
+            return Equals((Segment)obj);
+        }
+
+        public bool Equals(Segment segment)
+        {
+            return segment.A == A && segment.B == B;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+        #endregion
+
+        #region Operators
+        public static bool operator ==(Segment a, Segment b)
+        {
+            return a.Equals(b);
+        }
+
+        public static bool operator !=(Segment a, Segment b)
+        {
+            return !(a == b);
+        }
         #endregion
     }
 }

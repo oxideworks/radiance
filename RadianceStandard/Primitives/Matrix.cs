@@ -216,7 +216,7 @@ namespace RadianceStandard.Primitives
             return Equals((Matrix)obj);
         }
 
-        private bool Equals(Matrix matrix)
+        public bool Equals(Matrix matrix)
         {
             if (Size.Max != matrix.Size.Max) return false;
             for (int i = 0; i < Size.Height; i++)
@@ -229,5 +229,9 @@ namespace RadianceStandard.Primitives
         {
             return base.GetHashCode();
         }
+
+        public static bool operator ==(Matrix A, Matrix B) => A.Equals(B);
+
+        public static bool operator !=(Matrix A, Matrix B) => !(A == B);
     }
 }
