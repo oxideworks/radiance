@@ -17,8 +17,10 @@ namespace RadianceStandard.Utilities
             for (int i = 1; i < hull.Count - 1; i++)
             {
                 triangulation.Add(new Triangle(origin, hull[i], hull[i + 1]));
+#warning Try Flip here.
             }
 
+#warning Add inner points here.
             throw new NotImplementedException();
         }
         #endregion

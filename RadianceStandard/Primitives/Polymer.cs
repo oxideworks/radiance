@@ -41,6 +41,7 @@ namespace RadianceStandard.Primitives
             return flag;
         }
 
+#warning Нужно ToSegments() -> в immutable Segments
         public List<Segment> ToSegments()
         {
             var segments = new List<Segment>();

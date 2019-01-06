@@ -43,6 +43,7 @@ namespace RadianceStandard.Primitives
         {
             triangles.Add(triangle);
             points.AddRange(triangle.Polymer.Except(points));
+#warning Add triangle to cache here.
             TryResizeCache();
         }
         #endregion
