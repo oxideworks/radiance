@@ -8,7 +8,7 @@ namespace RadianceStandard.Primitives
     public class Triangulation
     {
         #region Ctors
-        public Triangulation()
+        private Triangulation()
         {
             cache = new Triangle[cacheSize, cacheSize];
             triangles = new List<Triangle>();
@@ -166,6 +166,43 @@ namespace RadianceStandard.Primitives
             }
 
             return tryFlip(A, B, out bundle) || tryFlip(B, A, out bundle);
+        }
+        // скорее всего он и станет TryFlip
+        private bool FlipIfPossible(Triangle a, Triangle b, out (Triangle C, Triangle D) pack)
+        {
+            foreach (var node in a.Polymer)
+            {
+                if (!DelaunayCondition(b, node))
+                {
+                    pack = Flip(a, b);
+                    return true;
+                }
+            }
+            pack = (null, null);
+            return false;
+        }
+
+        // Вроде как для такого названия один параметр логичен.
+        private void Triangulate(Triangle A)
+        {
+            // Перебираем всех соседей
+            foreach (Triangle triangle in A.Neighbours)
+            {
+                // Если флипнулось, то запускаем рекурсию для новых треугольников
+                if (FlipIfPossible(A, triangle, out (Triangle C, Triangle D) res))
+                {
+                    Triangulate(res.C);
+                    Triangulate(res.D);
+                }
+                // Если не флипнулось, то запускаем рекурсию для того же соседа, ведь
+                // если одна из окруженостей правильно, не гарантирует правильность второй.
+                // (если все ок, то эта рекурсия прервется сразу же, когда дойдет до нашего А, а если нет, то пойдет по всем
+                // и у меня есть предположение что выполняться это все будет вечность).ЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫ
+                else
+                {
+                    Triangulate(triangle);
+                }
+            }
         }
         #endregion
     }
