@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using RadianceStandard.Utilities;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace RadianceStandard.Primitives
@@ -13,16 +15,43 @@ namespace RadianceStandard.Primitives
             points = new Polymer();
         }
 
-        public Triangulation(IEnumerable<Triangle> triangles)
+        public Triangulation(IHardenedPolymer polymer)
             : this()
         {
-            foreach (var triangle in triangles)
-                Add(triangle);
+            var huller = new ConvexHuller();
+            var hull = huller.ComputeConvexHull(polymer);
+            FillOuterHull(hull);
+            var innerPoints = new Polymer(polymer.Except(hull));
+#warning Add inner points here.
+            FillInnerPoints(innerPoints);
+            throw new NotImplementedException();
+        }
+
+        private void FillOuterHull(IHardenedPolymer hull)
+        {
+            var origin = hull.First();
+            var triangles = new List<Triangle>();
+            for (int i = 1; i < hull.Count - 1; i++)
+                triangles.Add(new Triangle(origin, hull[i], hull[i + 1]));
+            for (int i = 0; i < triangles.Count; i++)
+            {
+                var current = triangles[i];
+                if (i - 1 >= 0)
+                    current.Neighbours.Add(triangles[i - 1]);
+                if (i + 1 < triangles.Count)
+                    current.Neighbours.Add(triangles[i + 1]);
+            }
+#warning Try Flip foreach here.
+        }
+
+        private void FillInnerPoints(IHardenedPolymer points)
+        {
+
         }
         #endregion
 
         #region fields
-        private int cacheSize = 2;
+        private int cacheSize = 1;
         private Triangle[,] cache;
         private readonly List<Triangle> triangles;
         private readonly Polymer points;
@@ -38,17 +67,28 @@ namespace RadianceStandard.Primitives
             var close = cache[(int)(point.X / cacheSize), (int)(point.Y / cacheSize)];
             return close.FindFriend(point);
         }
+        #endregion
 
-        public void Add(Triangle triangle)
+        #region privates
+        private void Add(Vector point)
+        {
+            var holder = Find(point);
+            var newTriangles = new List<Triangle>();
+            for (int i = 0, j = i; i < 3; j = i++)
+                newTriangles.Add(new Triangle(point, holder.Polymer[i], holder.Polymer[j]));
+#warning Add Neighbours to newTriangles here.
+            foreach (var newTriangle in newTriangles)
+                Add(newTriangle);
+        }
+
+        private void Add(Triangle triangle)
         {
             triangles.Add(triangle);
             points.AddRange(triangle.Polymer.Except(points));
 #warning Add triangle to cache here.
             TryResizeCache();
         }
-        #endregion
 
-        #region privates
         private void TryResizeCache()
         {
             if (points.Count > cache.Length * GlobalConsts.CACHE_EXPANSION_CONSTANT)
@@ -69,6 +109,63 @@ namespace RadianceStandard.Primitives
             cache = newCache;
             cacheSize *= 2;
             TryResizeCache();
+        }
+
+        private (Triangle C, Triangle D) Flip(Triangle A, Triangle B)
+        {
+            var mutual = A.Polymer.Intersect(B.Polymer).ToList();
+            if (mutual.Count != 2)
+                throw new Exception("This triangles don`t constitute quadrilateral!");
+            var union = A.Polymer.Union(B.Polymer).ToList();
+
+            Vector m0 = mutual[0];
+            Vector m1 = mutual[1];
+            var c = new Polymer(union.Except(new[] { m0 }));
+            var d = new Polymer(union.Except(new[] { m1 }));
+            var C = new Triangle(c);
+            var D = new Triangle(d);
+
+            var allNeighbours = A.Neighbours.Union(B.Neighbours).Except(new[] { A, B }).ToList();
+            List<Triangle> findNeighbours(Func<Vector, bool> func)
+                => allNeighbours.Where(n => n.Polymer.Any(func)).ToList();
+            C.Neighbours = findNeighbours(p => p == m1);
+            D.Neighbours = findNeighbours(p => p == m0);
+
+            void handleNeighbours(Triangle @base, Triangle toAdd)
+            {
+                @base.Neighbours.Remove(A);
+                @base.Neighbours.Remove(B);
+                @base.Neighbours.Add(toAdd);
+            }
+
+            C.Neighbours.ForEach(x => handleNeighbours(x, C));
+            D.Neighbours.ForEach(x => handleNeighbours(x, D));
+
+            return (C, D);
+        }
+
+        private bool DelaunayCondition(Triangle triangle, Vector point)
+        {
+            return (triangle.Center - point).LengthSquared >= triangle.RadiusSquared;
+        }
+
+        private bool TryFlip(Triangle A, Triangle B, out (Triangle C, Triangle D) bundle)
+        {
+            bool tryFlip(Triangle a, Triangle b, out (Triangle C, Triangle D) pack)
+            {
+                foreach (var node in a.Polymer)
+                {
+                    if (!DelaunayCondition(b, node))
+                    {
+                        pack = Flip(a, b);
+                        return true;
+                    }
+                }
+                pack = (null, null);
+                return false;
+            }
+
+            return tryFlip(A, B, out bundle) || tryFlip(B, A, out bundle);
         }
         #endregion
     }
