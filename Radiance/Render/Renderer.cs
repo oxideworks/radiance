@@ -12,9 +12,9 @@ using Windows.UI;
 
 namespace Radiance.Render
 {
-    public class Renderer : IDynamicRenderer
+    public class DynamicRenderer : IDynamicRenderer
     {
-        public Renderer(CanvasAnimatedControl canvas)
+        public DynamicRenderer(CanvasAnimatedControl canvas)
         {
             this.canvas = canvas;
             this.canvas.Draw += (s, e) => session = e.DrawingSession;
@@ -44,18 +44,23 @@ namespace Radiance.Render
             );
         }
 
-        public void RenderSegments(IEnumerable<Segment> segments)
+        public void RenderSegments(IEnumerable<Segment> segments, string hexColor)
         {
             foreach (var segment in segments)
-                RenderSegment(segment);
+                RenderSegment(segment, hexColor);
         }
 
-        public void RenderSegment(Segment segment)
+        public void RenderSegments(IEnumerable<Segment> segments)
+        {
+            RenderSegments(segments, "#ff6ab04c");
+        }
+
+        public void RenderSegment(Segment segment, string hexColor)
         {
             session?.DrawLine(
                 new ToVector2Adapter(segment.A),
                 new ToVector2Adapter(segment.B),
-                HexToColor("#ff6ab04c")
+                HexToColor(hexColor)
             );
         }
 
@@ -72,6 +77,14 @@ namespace Radiance.Render
                 counter++;
                 RenderPoint(point);
                 RenderText(counter.ToString(), point);
+            }
+        }
+
+        public void RenderPoints(IEnumerable<Vector> points, string hexColor)
+        {
+            foreach (var point in points)
+            {
+                RenderPoint(point, hexColor);
             }
         }
 

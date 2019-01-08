@@ -1,5 +1,4 @@
 ﻿using RadianceStandard.GameObjects;
-using RadianceStandard.IRender;
 using RadianceStandard.Primitives;
 using System;
 using System.Collections.Generic;
@@ -31,17 +30,27 @@ namespace RadianceStandard.IRender
 
         public void RenderObstacles(IEnumerable<IObstacle> obstacles)
         {
-            throw new NotImplementedException();
+            queue.Add(() => renderer.RenderObstacles(obstacles));
         }
 
         public void RenderPoints(IEnumerable<Vector> points)
         {
-            throw new NotImplementedException();
+            queue.Add(() => renderer.RenderPoints(points));
+        }
+
+        public void RenderPoints(IEnumerable<Vector> points, string hexColor)
+        {
+            queue.Add(() => renderer.RenderPoints(points, hexColor));
         }
 
         public void RenderSegments(IEnumerable<Segment> segments)
         {
-            throw new NotImplementedException();
+            queue.Add(() => renderer.RenderSegments(segments));
+        }
+
+        public void RenderSegments(IEnumerable<Segment> segments, string hexColor)
+        {
+            queue.Add(() => renderer.RenderSegments(segments, hexColor));
         }
 
         public void RenderText(string text, Vector point)
@@ -49,5 +58,4 @@ namespace RadianceStandard.IRender
             queue.Add(() => renderer.RenderText(text, point));
         }
     }
-
 }

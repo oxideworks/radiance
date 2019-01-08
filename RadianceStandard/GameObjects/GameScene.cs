@@ -11,11 +11,10 @@ namespace Radiance.GameObjects
     public sealed class GameScene
     {
         #region Ctors
-        public GameScene(IRenderer renderer, IKeyboardInput keyboardInput, IMouseInput mouseInput)
+        public GameScene(IDynamicRenderer renderer, IKeyboardInput keyboardInput, IMouseInput mouseInput)
         {
             this.renderer = renderer;
-            if (renderer is IDynamicRenderer)
-                ((IDynamicRenderer)renderer).Tick += (s, e) => Tick();
+            renderer.Tick += (s, e) => Tick();
 
             this.keyboardInput = keyboardInput;
             this.mouseInput = mouseInput;
@@ -28,7 +27,7 @@ namespace Radiance.GameObjects
         #endregion
 
         #region fields
-        private readonly IRenderer renderer;
+        private readonly IDynamicRenderer renderer;
         private readonly IKeyboardInput keyboardInput;
         private readonly IMouseInput mouseInput;
         private readonly List<IObstacle> obstacles;
@@ -52,7 +51,7 @@ namespace Radiance.GameObjects
         #region privates
         private void TestTriangulation()
         {
-            var trianglulation = new Triangulation(obstacles.Last().Polymer, renderer);
+            var trianglulation = new Triangulation(obstacles[1].Polymer, renderer);
         }
 
         private List<IObstacle> GenerateObstacles()

@@ -19,24 +19,37 @@ namespace RadianceStandard.Primitives
         public Triangulation(IHardenedPolymer polymer)
             : this()
         {
-            var huller = new ConvexHuller();
-            var hull = huller.ComputeConvexHull(polymer);
+            IHardenedPolymer hull = MakeHull(polymer);
             FillOuterHull(hull);
-            var innerPoints = new Polymer(polymer.Except(hull));
+            IHardenedPolymer innerPoints = new Polymer(polymer.Except(hull));
 #warning Add inner points here.
             FillInnerPoints(innerPoints);
             throw new NotImplementedException();
         }
 
-        public Triangulation(IHardenedPolymer polymer, IRenderer renderer)
+        private static IHardenedPolymer MakeHull(IHardenedPolymer polymer)
+        {
+            var huller = new ConvexHuller();
+            var hull = huller.ComputeConvexHull(polymer);
+            return hull;
+        }
+
+        public Triangulation(IHardenedPolymer polymer, IDynamicRenderer renderer)
         {
             // do same as Triangulation(IHardenedPolymer polymer)
             // but render steps
-            if (renderer is IDynamicRenderer)
-            {
-                IStaticRenderer staticRenderer = new StaticRenderer((IDynamicRenderer)renderer);
-                staticRenderer.RenderText("Hello from hell.", new Vector(400));
-            }
+
+            IStaticRenderer staticRenderer = new StaticRenderer(renderer);
+            staticRenderer.RenderText("Hello from hell.", new Vector(400));
+            IHardenedPolymer hull = MakeHull(polymer);
+#warning hull.ToSegments()
+            staticRenderer.RenderSegments(hull.ToSegments(), "#ffff6b81");
+            FillOuterHull(hull);
+            foreach (var tr in triangles)
+                staticRenderer.RenderSegments(tr.Polymer.ToSegments(), "#ff7bed9f");
+            //staticRenderer.
+            //staticRenderer.render
+
         }
 
         private void FillOuterHull(IHardenedPolymer hull)
@@ -54,6 +67,8 @@ namespace RadianceStandard.Primitives
                     current.Neighbours.Add(triangles[i + 1]);
             }
 #warning Try Flip foreach here.
+            foreach (var triangle in triangles)
+                DelaunayFrom(triangle);
         }
 
         private void FillInnerPoints(IHardenedPolymer points)

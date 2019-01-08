@@ -9,7 +9,9 @@ namespace RadianceStandard.IRender
     {
         void RenderObstacles(IEnumerable<IObstacle> obstacles);
         void RenderSegments(IEnumerable<Segment> segments);
+        void RenderSegments(IEnumerable<Segment> segments, string hexColor);
         void RenderPoints(IEnumerable<Vector> points);
+        void RenderPoints(IEnumerable<Vector> points, string hexColor);
         void RenderText(string text, Vector point);
     }
 
