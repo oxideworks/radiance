@@ -12,13 +12,16 @@ using Windows.UI;
 
 namespace Radiance.Render
 {
-    public class Renderer : IRenderer
+    public class Renderer : IDynamicRenderer
     {
         public Renderer(CanvasAnimatedControl canvas)
         {
             this.canvas = canvas;
             this.canvas.Draw += (s, e) => session = e.DrawingSession;
+            this.canvas.Draw += (s, e) => Tick?.Invoke(this, EventArgs.Empty);
         }
+
+        public event EventHandler Tick;
 
         private readonly CanvasAnimatedControl canvas;
         private CanvasDrawingSession session;
@@ -33,7 +36,7 @@ namespace Radiance.Render
         {
             var geom = CanvasGeometry.CreatePolygon(canvas, new ToVector2ListAdapter(obs));
             var color = HexToColor("#ffc7ecee");
-            session.DrawGeometry(
+            session?.DrawGeometry(
                 geom,
                 color,
                 3,
@@ -49,7 +52,7 @@ namespace Radiance.Render
 
         public void RenderSegment(Segment segment)
         {
-            session.DrawLine(
+            session?.DrawLine(
                 new ToVector2Adapter(segment.A),
                 new ToVector2Adapter(segment.B),
                 HexToColor("#ff6ab04c")
@@ -74,7 +77,7 @@ namespace Radiance.Render
 
         public void RenderPoint(Vector point, string color = "#ff686de0")
         {
-            session.FillCircle(
+            session?.FillCircle(
                 new ToVector2Adapter(point),
                 3,
                 HexToColor(color)
@@ -83,7 +86,7 @@ namespace Radiance.Render
 
         public void RenderText(string text, Vector point)
         {
-            session.DrawText(text,
+            session?.DrawText(text,
                 new ToVector2Adapter(point),
                 HexToColor("#ffdff9fb")
             );

@@ -1,4 +1,5 @@
-﻿using RadianceStandard.Utilities;
+﻿using RadianceStandard.IRender;
+using RadianceStandard.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,17 @@ namespace RadianceStandard.Primitives
 #warning Add inner points here.
             FillInnerPoints(innerPoints);
             throw new NotImplementedException();
+        }
+
+        public Triangulation(IHardenedPolymer polymer, IRenderer renderer)
+        {
+            // do same as Triangulation(IHardenedPolymer polymer)
+            // but render steps
+            if (renderer is IDynamicRenderer)
+            {
+                IStaticRenderer staticRenderer = new StaticRenderer((IDynamicRenderer)renderer);
+                staticRenderer.RenderText("Hello from hell.", new Vector(400));
+            }
         }
 
         private void FillOuterHull(IHardenedPolymer hull)
@@ -167,6 +179,7 @@ namespace RadianceStandard.Primitives
 
             return tryFlip(A, B, out bundle) || tryFlip(B, A, out bundle);
         }
+
         // скорее всего он и станет TryFlip
         private bool FlipIfPossible(Triangle a, Triangle b, out (Triangle C, Triangle D) pack)
         {
@@ -183,7 +196,7 @@ namespace RadianceStandard.Primitives
         }
 
         // Вроде как для такого названия один параметр логичен.
-        private void Triangulate(Triangle A)
+        private void DelaunayFrom(Triangle A)
         {
             // Перебираем всех соседей
             foreach (Triangle triangle in A.Neighbours)
@@ -191,8 +204,8 @@ namespace RadianceStandard.Primitives
                 // Если флипнулось, то запускаем рекурсию для новых треугольников
                 if (FlipIfPossible(A, triangle, out (Triangle C, Triangle D) res))
                 {
-                    Triangulate(res.C);
-                    Triangulate(res.D);
+                    DelaunayFrom(res.C);
+                    DelaunayFrom(res.D);
                 }
                 // Если не флипнулось, то запускаем рекурсию для того же соседа, ведь
                 // если одна из окруженостей правильно, не гарантирует правильность второй.
@@ -200,7 +213,7 @@ namespace RadianceStandard.Primitives
                 // и у меня есть предположение что выполняться это все будет вечность).ЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫ
                 else
                 {
-                    Triangulate(triangle);
+                    DelaunayFrom(triangle);
                 }
             }
         }

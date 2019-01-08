@@ -14,11 +14,16 @@ namespace Radiance.GameObjects
         public GameScene(IRenderer renderer, IKeyboardInput keyboardInput, IMouseInput mouseInput)
         {
             this.renderer = renderer;
+            if (renderer is IDynamicRenderer)
+                ((IDynamicRenderer)renderer).Tick += (s, e) => Tick();
+
             this.keyboardInput = keyboardInput;
             this.mouseInput = mouseInput;
             this.mouseInput.OnMouseMoved += (s, e) => lastMousePosition = e;
             lastMousePosition = this.mouseInput.MousePosition;
+
             obstacles = GenerateObstacles();
+            TestTriangulation();
         }
         #endregion
 
@@ -45,6 +50,11 @@ namespace Radiance.GameObjects
         #endregion
 
         #region privates
+        private void TestTriangulation()
+        {
+            var trianglulation = new Triangulation(obstacles.Last().Polymer, renderer);
+        }
+
         private List<IObstacle> GenerateObstacles()
         {
             var obs = new List<IObstacle>

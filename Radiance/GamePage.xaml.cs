@@ -11,11 +11,8 @@ namespace Radiance
         public GamePage()
         {
             InitializeComponent();
-            var renderer = new Renderer(canvas);
-            var keyboardInput = new KeyboardInput();
-            var mouseInput = new MouseInput();
-            scene = new GameScene(renderer, keyboardInput, mouseInput);
-            canvas.Draw += (s, e) => scene.Tick();
+            scene = new GameScene(new Renderer(canvas), new KeyboardInput(), new MouseInput());
+            //canvas.Draw += (s, e) => scene.Tick();
         }
     }
 }
