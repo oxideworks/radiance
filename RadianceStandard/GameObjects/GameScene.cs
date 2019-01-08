@@ -51,33 +51,41 @@ namespace Radiance.GameObjects
         #region privates
         private void TestTriangulation()
         {
-            var trianglulation = new Triangulation(obstacles[1].Polymer, renderer);
+            var trianglulation = new Triangulation(obstacles.Last().Polymer, renderer);
         }
 
         private List<IObstacle> GenerateObstacles()
         {
             var obs = new List<IObstacle>
             {
-                new Obstacle(new Polymer(new[] {
-                new Vector(10),
-                new Vector(200, 10),
-                new Vector(10, 200)
-                })),
+                //new Obstacle(new Polymer(new[] {
+                //new Vector(10),
+                //new Vector(200, 10),
+                //new Vector(10, 200)
+                //})),
+
+                //new Obstacle(new Polymer(new[] {
+                //new Vector(60),
+                //new Vector(300, 60),
+                //new Vector(235, 180),
+                //new Vector(300),
+                //new Vector(180, 270),
+                //new Vector(60, 300)
+                //})),
+
+                //new Obstacle(new Polymer(new[] {
+                //new Vector(700),
+                //new Vector(200, 700),
+                //new Vector(530),
+                //new Vector(700, 200)
+                //}))
 
                 new Obstacle(new Polymer(new[] {
-                new Vector(60),
-                new Vector(300, 60),
-                new Vector(235, 180),
-                new Vector(300),
-                new Vector(180, 270),
-                new Vector(60, 300)
-                })),
-
-                new Obstacle(new Polymer(new[] {
-                new Vector(700),
-                new Vector(200, 700),
-                new Vector(530),
-                new Vector(700, 200)
+                new Vector(1000, 250),
+                new Vector(1350, 300),
+                new Vector(900, 400),
+                new Vector(1070, 550),
+                new Vector(1400, 700)
                 }))
             };
             return obs;

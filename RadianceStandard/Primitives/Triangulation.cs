@@ -27,14 +27,8 @@ namespace RadianceStandard.Primitives
             throw new NotImplementedException();
         }
 
-        private static IHardenedPolymer MakeHull(IHardenedPolymer polymer)
-        {
-            var huller = new ConvexHuller();
-            var hull = huller.ComputeConvexHull(polymer);
-            return hull;
-        }
-
         public Triangulation(IHardenedPolymer polymer, IDynamicRenderer renderer)
+            : this()
         {
             // do same as Triangulation(IHardenedPolymer polymer)
             // but render steps
@@ -45,11 +39,18 @@ namespace RadianceStandard.Primitives
 #warning hull.ToSegments()
             staticRenderer.RenderSegments(hull.ToSegments(), "#ffff6b81");
             FillOuterHull(hull);
-            foreach (var tr in triangles)
-                staticRenderer.RenderSegments(tr.Polymer.ToSegments(), "#ff7bed9f");
+            foreach (var triangle in triangles)
+                staticRenderer.RenderSegments(triangle.Polymer.ToSegments(), "#ff7bed9f");
             //staticRenderer.
             //staticRenderer.render
 
+        }
+
+        private static IHardenedPolymer MakeHull(IHardenedPolymer polymer)
+        {
+            var huller = new ConvexHuller();
+            var hull = huller.ComputeConvexHull(polymer);
+            return hull;
         }
 
         private void FillOuterHull(IHardenedPolymer hull)
@@ -144,13 +145,19 @@ namespace RadianceStandard.Primitives
             if (mutual.Count != 2)
                 throw new Exception("This triangles don`t constitute quadrilateral!");
             var union = A.Polymer.Union(B.Polymer).ToList();
-
+#warning            // мы изменяем лист по которому проходим
             Vector m0 = mutual[0];
             Vector m1 = mutual[1];
             var c = new Polymer(union.Except(new[] { m0 }));
             var d = new Polymer(union.Except(new[] { m1 }));
             var C = new Triangle(c);
             var D = new Triangle(d);
+
+            triangles.Add(C);
+            triangles.Add(D);
+
+            triangles.Remove(A);
+            triangles.Remove(B);
 
             var allNeighbours = A.Neighbours.Union(B.Neighbours).Except(new[] { A, B }).ToList();
             List<Triangle> findNeighbours(Func<Vector, bool> func)

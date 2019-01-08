@@ -63,7 +63,7 @@ namespace RadianceStandard.Primitives
         {
             get
             {
-                if (radiusSquared.HasValue)
+                if (!radiusSquared.HasValue)
                     radiusSquared = ComputeRadius();
                 return radiusSquared.Value;
             }
@@ -97,6 +97,11 @@ namespace RadianceStandard.Primitives
                 return null;
             }
         }
+
+        public override string ToString()
+        {
+            return string.Join("; ", Polymer.Select(x => x.ToString()));
+        }
         #endregion
 
         #region privates
@@ -104,7 +109,7 @@ namespace RadianceStandard.Primitives
         private Vector ComputeCenter()
         {
             var list = new List<List<double>> {
-                new List<double> (4),
+                new List<double> (Enumerable.Repeat<double>(0, 4)),
                 new List<double> { Polymer[0].LengthSquared, Polymer[0].X, Polymer[0].Y, 1 },
                 new List<double> { Polymer[1].LengthSquared, Polymer[1].X, Polymer[1].Y, 1 },
                 new List<double> { Polymer[2].LengthSquared, Polymer[2].X, Polymer[2].Y, 1 },
