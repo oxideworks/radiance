@@ -143,9 +143,9 @@ namespace RadianceStandard.Primitives
         {
             var mutual = A.Polymer.Intersect(B.Polymer).ToList();
             if (mutual.Count != 2)
-                throw new Exception("This triangles don`t constitute quadrilateral!");
+                throw new Exception("This triangles don't constitute quadrilateral!");
             var union = A.Polymer.Union(B.Polymer).ToList();
-#warning            // мы изменяем лист по которому проходим
+#warning Мы изменяем лист по которому проходим
             Vector m0 = mutual[0];
             Vector m1 = mutual[1];
             var c = new Polymer(union.Except(new[] { m0 }));
