@@ -70,8 +70,10 @@ namespace RadianceStandard.Primitives
             }
             // До этого момента все ОК.
 #warning Try Flip foreach here.
-            foreach (var triangle in triangles)
-                DelaunayFrom(triangle);
+            this.triangles.AddRange(triangles);
+            foreach (var triangle in this.triangles.ToList()) // тут меняем лист по которому идем.
+                if (this.triangles.Contains(triangle))
+                    DelaunayFrom(triangle);
         }
 
         private void FillInnerPoints(IHardenedPolymer points)
@@ -155,18 +157,23 @@ namespace RadianceStandard.Primitives
             var C = new Triangle(c);
             var D = new Triangle(d);
 
+            // До сюда все ОК.
+            // Убрать старые
             triangles.Add(C);
             triangles.Add(D);
 
+            // Добавить новые
             triangles.Remove(A);
             triangles.Remove(B);
 
+            // Добавить новым соседей
             var allNeighbours = A.Neighbours.Union(B.Neighbours).Except(new[] { A, B }).ToList();
             List<Triangle> findNeighbours(Func<Vector, bool> func)
                 => allNeighbours.Where(n => n.Polymer.Any(func)).ToList();
             C.Neighbours = findNeighbours(p => p == m1);
             D.Neighbours = findNeighbours(p => p == m0);
 
+            // Обработать соседей
             void handleNeighbours(Triangle @base, Triangle toAdd)
             {
                 @base.Neighbours.Remove(A);
@@ -176,6 +183,10 @@ namespace RadianceStandard.Primitives
 
             C.Neighbours.ForEach(x => handleNeighbours(x, C));
             D.Neighbours.ForEach(x => handleNeighbours(x, D));
+
+            // Добавить C к D и D к C
+            C.Neighbours.Add(D);
+            D.Neighbours.Add(C);
 
             return (C, D);
         }
@@ -220,13 +231,13 @@ namespace RadianceStandard.Primitives
         }
 
         // Вроде как для такого названия один параметр логичен.
-        private void DelaunayFrom(Triangle A)
+        private void DelaunayFrom(Triangle triangle)//, bool flag = true)
         {
             // Перебираем всех соседей
-            foreach (Triangle triangle in A.Neighbours)
+            foreach (Triangle neighbour in triangle.Neighbours)
             {
                 // Если флипнулось, то запускаем рекурсию для новых треугольников
-                if (FlipIfPossible(A, triangle, out (Triangle C, Triangle D) res))
+                if (FlipIfPossible(triangle, neighbour, out (Triangle C, Triangle D) res))
                 {
                     DelaunayFrom(res.C);
                     DelaunayFrom(res.D);
@@ -237,10 +248,13 @@ namespace RadianceStandard.Primitives
                 // А, а если нет, то пойдет по всем
                 // и у меня есть предположение что выполняться это все будет вечность).ЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫ
 
-#warning Она точно прервется когда все ок? Что значит все ок?
+#warning Она точно прервется когда все ок? Что значит все ок? Тут зациклилось.
                 else
                 {
-                    DelaunayFrom(triangle);
+                    //if (flag)
+                    //{
+                    DelaunayFrom(neighbour); //, flag = false);
+                    //}
                 }
             }
         }
