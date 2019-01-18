@@ -10,14 +10,17 @@ class pyart:
     textShift = (5, 10)
 
     def __init__(self):
-        fig, ax = plt.subplots()
+        fig, ax = plt.subplots(figsize=(10,10), dpi=100)
         plt.style.use('bmh')
         self.fig = fig
         self.ax = ax
 
-    def dots(self, xdata, ydata, color='k', zord=1):
+    def dots(self, xdata, ydata, color='k', zord=1, label_dots=False, font_size=12):
         self.ax.scatter(xdata, ydata, s=self.dotSize, c=color,
                         zorder=zord, label=self.nextLabel)
+        if label_dots:
+            for (x,y) in zip(xdata, ydata):
+                self.text(x, y, f'({x}; {y})', font_size)
         self.nextLabel = None
 
     def line(self, xdata, ydata, color='k', zord=1):
@@ -64,7 +67,6 @@ class pyart:
 
     def text(self, x, y, text, fontsize=12):
         (x, y) = fn.zip_with(lambda x, y : x + y, (x, y), self.textShift)
-        (x, y) = map (lambda x : x[0] + x[1], zip((x, y), self.textShift))
         self.ax.text(x, y, text, fontsize=fontsize)
 
     def invert_xaxis(self):
@@ -78,3 +80,7 @@ class pyart:
     
     def turn_axis_on(self):
         plt.axis('on')
+
+    def circle(self, x, y, r, color='k'):
+        c = plt.Circle((x, y), r, color=color, fill=False, clip_on=False, linewidth=2)
+        self.ax.add_artist(c)

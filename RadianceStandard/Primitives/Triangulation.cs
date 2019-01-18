@@ -35,6 +35,7 @@ namespace RadianceStandard.Primitives
 
             IStaticRenderer staticRenderer = new StaticRenderer(renderer);
             staticRenderer.RenderText("Hello from hell.", new Vector(400));
+
             IHardenedPolymer hull = MakeHull(polymer);
 #warning hull.ToSegments()
             staticRenderer.RenderSegments(hull.ToSegments(), "#ffff6b81");
@@ -67,6 +68,7 @@ namespace RadianceStandard.Primitives
                 if (i + 1 < triangles.Count)
                     current.Neighbours.Add(triangles[i + 1]);
             }
+            // До этого момента все ОК.
 #warning Try Flip foreach here.
             foreach (var triangle in triangles)
                 DelaunayFrom(triangle);
@@ -231,8 +233,11 @@ namespace RadianceStandard.Primitives
                 }
                 // Если не флипнулось, то запускаем рекурсию для того же соседа, ведь
                 // если одна из окруженостей правильно, не гарантирует правильность второй.
-                // (если все ок, то эта рекурсия прервется сразу же, когда дойдет до нашего А, а если нет, то пойдет по всем
+                // (если все ок, то эта рекурсия прервется сразу же, когда дойдет до нашего 
+                // А, а если нет, то пойдет по всем
                 // и у меня есть предположение что выполняться это все будет вечность).ЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫ
+
+#warning Она точно прервется когда все ок? Что значит все ок?
                 else
                 {
                     DelaunayFrom(triangle);

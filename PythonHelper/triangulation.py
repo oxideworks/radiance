@@ -19,7 +19,7 @@ def main():
     art.line(xs + [xs[0]], ys + [ys[0]], color='b')
     for (x,y) in zip(xs, ys):
         art.text(x, y, f'({x}; {y})', fontsize=12)
-    art.save('plot.png', 500)
+    art.save('plot.png', 100)
     art.show()
 
 if __name__ == '__main__':

@@ -50,6 +50,7 @@ namespace RadianceStandard.Primitives
         #region Props
         public IHardenedPolymer Polymer { get; set; }
         public List<Triangle> Neighbours { get; set; }
+
         public Vector Center
         {
             get
@@ -59,6 +60,7 @@ namespace RadianceStandard.Primitives
                 return center;
             }
         }
+
         public double RadiusSquared
         {
             get
@@ -68,6 +70,8 @@ namespace RadianceStandard.Primitives
                 return radiusSquared.Value;
             }
         }
+
+        public double Radius => Math.Sqrt(RadiusSquared);
         #endregion
 
         #region Methods
