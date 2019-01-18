@@ -182,7 +182,7 @@ namespace RadianceStandard.Primitives
 
         private bool DelaunayCondition(Triangle triangle, Vector point)
         {
-            return (triangle.Center - point).LengthSquared >= triangle.RadiusSquared;
+            return (triangle.CircleCenter - point).LengthSquared >= triangle.CircleRadiusSquared;
         }
 
         private bool TryFlip(Triangle A, Triangle B, out (Triangle C, Triangle D) bundle)

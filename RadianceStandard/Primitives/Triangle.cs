@@ -44,14 +44,14 @@ namespace RadianceStandard.Primitives
 
         #region fields
         private Vector center;
-        private double? radiusSquared;
+        private float? radiusSquared;
         #endregion
 
         #region Props
         public IHardenedPolymer Polymer { get; set; }
         public List<Triangle> Neighbours { get; set; }
 
-        public Vector Center
+        public Vector CircleCenter
         {
             get
             {
@@ -61,7 +61,7 @@ namespace RadianceStandard.Primitives
             }
         }
 
-        public double RadiusSquared
+        public float CircleRadiusSquared
         {
             get
             {
@@ -71,7 +71,7 @@ namespace RadianceStandard.Primitives
             }
         }
 
-        public double Radius => Math.Sqrt(RadiusSquared);
+        public float CircleRadius => (float)Math.Sqrt(CircleRadiusSquared);
         #endregion
 
         #region Methods
@@ -79,7 +79,7 @@ namespace RadianceStandard.Primitives
         {
             var rayEngine = new RayEngine();
             Segment segment = null;
-            var ray = new Ray(Center, point);
+            var ray = new Ray(CircleCenter, point);
             foreach (var edge in Polymer.ToSegments())
             {
                 if (rayEngine.TryFindCrossingPoint(ray, edge, out Vector foo))
@@ -109,7 +109,7 @@ namespace RadianceStandard.Primitives
         #endregion
 
         #region privates
-        private double a, b, c, d;
+        //private double a, b, c, d;
         private Vector ComputeCenter()
         {
             var list = new List<List<double>> {
@@ -119,21 +119,22 @@ namespace RadianceStandard.Primitives
                 new List<double> { Polymer[2].LengthSquared, Polymer[2].X, Polymer[2].Y, 1 },
             };
             Matrix matrix = Matrix.FromList(list);
-            a = matrix.CutMinor(0, 0).Determinant.Value;
-            b = matrix.CutMinor(0, 1).Determinant.Value;
-            c = matrix.CutMinor(0, 2).Determinant.Value;
-            d = matrix.CutMinor(0, 3).Determinant.Value;
+            var a = matrix.CutMinor(0, 0).Determinant.Value;
+            var b = matrix.CutMinor(0, 1).Determinant.Value;
+            var c = matrix.CutMinor(0, 2).Determinant.Value;
+            //var d = matrix.CutMinor(0, 3).Determinant.Value;
 
             return new Vector((float)(b / (2 * a)), (float)(-1 * c / (2 * a)));
         }
 
-        private double ComputeRadius()
+        private float ComputeRadius()
         {
-            if (Center == null)
+            if (CircleCenter == null)
             {
                 ComputeCenter();
             }
-            return (float)((b * b + c * c - 4 * a * d) / (4 * a * a));
+            //return (float)((b * b + c * c - 4 * a * d) / (4 * a * a));
+            return (CircleCenter - Polymer[0]).LengthSquared;
         }
         #endregion
     }
