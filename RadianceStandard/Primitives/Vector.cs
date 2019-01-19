@@ -75,6 +75,13 @@ namespace RadianceStandard.Primitives
             return (X, Y);
         }
 
+        public Vector Turn(double rad)
+        {
+            var x = X * Math.Cos(rad) - Y * Math.Sin(rad);
+            var y = X * Math.Sin(rad) + Y * Math.Cos(rad);
+            return new Vector((float)x, (float)y);
+        }
+
         #endregion
 
         #region Explicit Operations

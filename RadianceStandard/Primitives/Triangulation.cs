@@ -72,6 +72,8 @@ namespace RadianceStandard.Primitives
             // До этого момента все ОК.
 #warning Try Flip foreach here.
             this.triangles.AddRange(triangles);
+
+            // Запускаем Делоне
             foreach (var triangle in this.triangles.ToList()) // тут меняем лист по которому идем.
                 if (this.triangles.Contains(triangle))
                     DelaunayFrom(triangle);
@@ -196,7 +198,8 @@ namespace RadianceStandard.Primitives
         private bool DelaunayCondition(Triangle triangle, Vector point)
         {
             //return (triangle.CircleCenter - point).LengthSquared >= triangle.CircleRadiusSquared;
-            return Math.Floor((triangle.CircleCenter - point).LengthSquared) >= Math.Floor(triangle.CircleRadiusSquared);
+            //return Math.Floor((triangle.CircleCenter - point).LengthSquared) >= Math.Floor(triangle.CircleRadiusSquared);
+            return Math.Floor((triangle.CircleCenter - point).LengthSquared) >= Math.Floor(triangle.CircleRadiusSquared) - 2;
         }
 
         private bool TryFlip(Triangle A, Triangle B, out (Triangle C, Triangle D) bundle)
@@ -253,13 +256,13 @@ namespace RadianceStandard.Primitives
 
 #warning Она точно прервется когда все ок? Что значит все ок? Тут зациклилось.
                 // Мы ведь уже проходимся по всем треугольникам
-                else
-                {
-                    ////if (flag)
-                    ////{
-                    //DelaunayFrom(neighbour); //, flag = false);
-                    ////}
-                }
+                //else
+                //{
+                //    ////if (flag)
+                //    ////{
+                //    DelaunayFrom(neighbour); //, flag = false);
+                //    ////}
+                //}
             }
         }
         #endregion

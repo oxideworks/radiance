@@ -15,12 +15,12 @@ class pyart:
         self.fig = fig
         self.ax = ax
 
-    def dots(self, xdata, ydata, color='k', zord=1, label_dots=False, font_size=12):
+    def dots(self, xdata, ydata, color='k', zord=1, label_dots=False, font_size=12, decimal_places=2):
         self.ax.scatter(xdata, ydata, s=self.dotSize, c=color,
                         zorder=zord, label=self.nextLabel)
         if label_dots:
             for (x,y) in zip(xdata, ydata):
-                self.text(x, y, f'({x}; {y})', font_size)
+                self.text(x, y, f'({round(x, decimal_places)}; {round(y, decimal_places)})', font_size)
         self.nextLabel = None
 
     def line(self, xdata, ydata, color='k', zord=1):
