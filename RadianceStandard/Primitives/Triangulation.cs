@@ -42,6 +42,7 @@ namespace RadianceStandard.Primitives
             FillOuterHull(hull);
             foreach (var triangle in triangles)
                 staticRenderer.RenderSegments(triangle.Polymer.ToSegments(), "#ff7bed9f");
+
             //staticRenderer.
             //staticRenderer.render
 
@@ -191,9 +192,11 @@ namespace RadianceStandard.Primitives
             return (C, D);
         }
 
+#warning Rounding values here!
         private bool DelaunayCondition(Triangle triangle, Vector point)
         {
-            return (triangle.CircleCenter - point).LengthSquared >= triangle.CircleRadiusSquared;
+            //return (triangle.CircleCenter - point).LengthSquared >= triangle.CircleRadiusSquared;
+            return Math.Floor((triangle.CircleCenter - point).LengthSquared) >= Math.Floor(triangle.CircleRadiusSquared);
         }
 
         private bool TryFlip(Triangle A, Triangle B, out (Triangle C, Triangle D) bundle)
@@ -249,12 +252,13 @@ namespace RadianceStandard.Primitives
                 // и у меня есть предположение что выполняться это все будет вечность).ЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫЫ
 
 #warning Она точно прервется когда все ок? Что значит все ок? Тут зациклилось.
+                // Мы ведь уже проходимся по всем треугольникам
                 else
                 {
-                    //if (flag)
-                    //{
-                    DelaunayFrom(neighbour); //, flag = false);
-                    //}
+                    ////if (flag)
+                    ////{
+                    //DelaunayFrom(neighbour); //, flag = false);
+                    ////}
                 }
             }
         }

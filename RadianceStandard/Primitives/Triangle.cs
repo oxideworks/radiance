@@ -134,6 +134,11 @@ namespace RadianceStandard.Primitives
                 ComputeCenter();
             }
             //return (float)((b * b + c * c - 4 * a * d) / (4 * a * a));
+
+
+            //#warning Может можно красивеe
+            //return Polymer.Select(x => (CircleCenter - x).LengthSquared).Aggregate((acc, x) => acc += x) / 3;
+
             return (CircleCenter - Polymer[0]).LengthSquared;
         }
         #endregion

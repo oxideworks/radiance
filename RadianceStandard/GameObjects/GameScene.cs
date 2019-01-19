@@ -41,7 +41,7 @@ namespace Radiance.GameObjects
         #region Methods
         public void Tick()
         {
-            renderer.RenderObstacles(obstacles);
+            //renderer.RenderObstacles(obstacles);
             FindHulls(obstacles).ForEach(renderer.RenderPoints);
             renderer.RenderPoints(new[] { lastMousePosition });
             renderer.RenderText(lastMousePosition.ToString(), lastMousePosition);
