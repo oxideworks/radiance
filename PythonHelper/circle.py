@@ -15,10 +15,12 @@ art = pyart.pyart()
 art.invert_yaxis()
 art.turn_axis_off()
 
-art.line(loop(xs), loop(ys))
-art.dotSize = 22
+art.dotSize = 15
 art.nextLabel = 'Nodes'
-art.dots(xs, ys, color='r', zord=10, label_dots=True, decimal_places=0)
+art.textShift = (1, 2)
+art.dots(xs, ys, color='r', zord=10, label_dots=True, decimal_places=1, font_size=3)
+# art.dots(xs, ys, color='r', zord=10)
+# art.line(loop(xs), loop(ys))
 
-art.save('circle_obs.png', 360)
+art.save('circle_obs.png', 620)
 art.show()

@@ -27,25 +27,31 @@ namespace RadianceStandard.Primitives
             throw new NotImplementedException();
         }
 
+        private IStaticRenderer staticRenderer;
         public Triangulation(IHardenedPolymer polymer, IDynamicRenderer renderer)
             : this()
         {
             // do same as Triangulation(IHardenedPolymer polymer)
             // but render steps
 
-            IStaticRenderer staticRenderer = new StaticRenderer(renderer);
+            staticRenderer = new StaticRenderer(renderer);
             staticRenderer.RenderText("Hello from hell.", new Vector(400));
 
             IHardenedPolymer hull = MakeHull(polymer);
 #warning hull.ToSegments()
             staticRenderer.RenderSegments(hull.ToSegments(), "#ffff6b81");
-            FillOuterHull(hull);
-            foreach (var triangle in triangles)
-                staticRenderer.RenderSegments(triangle.Polymer.ToSegments(), "#ff7bed9f");
+            FillOuterHull(hull); // hull.Count = 30; polymer.Count = 32. Вопрос?
+            DrawCurrentTriangulationState();
 
             //staticRenderer.
             //staticRenderer.render
 
+        }
+
+        private void DrawCurrentTriangulationState()
+        {
+            foreach (var triangle in triangles)
+                staticRenderer.RenderSegments(triangle.Polymer.ToSegments(), "#ff7bed9f");
         }
 
         private static IHardenedPolymer MakeHull(IHardenedPolymer polymer)
@@ -75,7 +81,7 @@ namespace RadianceStandard.Primitives
 
             // Запускаем Делоне
             foreach (var triangle in this.triangles.ToList()) // тут меняем лист по которому идем.
-                if (this.triangles.Contains(triangle))
+                if (this.triangles.Contains(triangle)) // Contains работает неправильно
                     DelaunayFrom(triangle);
         }
 
@@ -199,7 +205,7 @@ namespace RadianceStandard.Primitives
         {
             //return (triangle.CircleCenter - point).LengthSquared >= triangle.CircleRadiusSquared;
             //return Math.Floor((triangle.CircleCenter - point).LengthSquared) >= Math.Floor(triangle.CircleRadiusSquared);
-            return Math.Floor((triangle.CircleCenter - point).LengthSquared) >= Math.Floor(triangle.CircleRadiusSquared) - 2;
+            return Math.Floor((triangle.CircleCenter - point).LengthSquared) >= Math.Floor(triangle.CircleRadiusSquared) - 1;
         }
 
         private bool TryFlip(Triangle A, Triangle B, out (Triangle C, Triangle D) bundle)
@@ -242,6 +248,8 @@ namespace RadianceStandard.Primitives
             // Перебираем всех соседей
             foreach (Triangle neighbour in triangle.Neighbours)
             {
+                DrawCurrentTriangulationState();
+                //Thread.Sleep(1000);
                 // Если флипнулось, то запускаем рекурсию для новых треугольников
                 if (FlipIfPossible(triangle, neighbour, out (Triangle C, Triangle D) res))
                 {

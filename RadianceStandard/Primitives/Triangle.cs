@@ -106,6 +106,38 @@ namespace RadianceStandard.Primitives
         {
             return string.Join("; ", Polymer.Select(x => x.ToString()));
         }
+
+        public override bool Equals(object obj)
+        {
+            if (!(obj is Triangle)) return false;
+            return Equals((Triangle)obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return (Polymer[0], Polymer[1], Polymer[2]).GetHashCode();
+        }
+
+        public bool Equals(Triangle triangle)
+        {
+            foreach (var node in triangle.Polymer)
+                if (!Polymer.Contains(node))
+                    return false;
+            foreach (var node in Polymer)
+                if (!triangle.Polymer.Contains(node))
+                    return false;
+            return true;
+        }
+
+        public static bool operator ==(Triangle A, Triangle B)
+        {
+            return A.Equals(B);
+        }
+
+        public static bool operator !=(Triangle A, Triangle B)
+        {
+            return !(A == B);
+        }
         #endregion
 
         #region privates
