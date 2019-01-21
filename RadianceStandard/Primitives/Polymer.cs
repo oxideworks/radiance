@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace RadianceStandard.Primitives
 {
@@ -7,6 +8,7 @@ namespace RadianceStandard.Primitives
     {
         List<Segment> ToSegments();
         bool ContainsPoint(Vector point);
+        string ToPythonList();
     }
 
     public class Polymer : List<Vector>, IHardenedPolymer
@@ -48,6 +50,11 @@ namespace RadianceStandard.Primitives
             for (int i = 0, j = Count - 1; i < Count; j = i++)
                 segments.Add(new Segment(this[i], this[j]));
             return segments;
+        }
+
+        public string ToPythonList()
+        {
+            return $"[{string.Join(", ", this.Select(x => x.ToString().Replace(";", ",")))}]";
         }
         #endregion
 

@@ -2,6 +2,7 @@
 using RadianceStandard.Utilities;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace RadianceStandard.Primitives
@@ -40,6 +41,8 @@ namespace RadianceStandard.Primitives
             IHardenedPolymer hull = MakeHull(polymer);
 #warning hull.ToSegments()
             staticRenderer.RenderSegments(hull.ToSegments(), "#ffff6b81");
+            var hullString = hull.ToPythonList();
+            var polymerString = polymer.ToPythonList();
             FillOuterHull(hull); // hull.Count = 30; polymer.Count = 32. Вопрос?
             DrawCurrentTriangulationState();
 
@@ -48,8 +51,11 @@ namespace RadianceStandard.Primitives
 
         }
 
+        private int counter = 0;
         private void DrawCurrentTriangulationState()
         {
+            DumpToFile(counter.ToString());
+            counter++;
             foreach (var triangle in triangles)
                 staticRenderer.RenderSegments(triangle.Polymer.ToSegments(), "#ff7bed9f");
         }
@@ -107,6 +113,21 @@ namespace RadianceStandard.Primitives
         {
             var close = cache[(int)(point.X / cacheSize), (int)(point.Y / cacheSize)];
             return close.FindFriend(point);
+        }
+
+        public async void DumpToFile(string filename)
+        {
+#warning UWP Сосать!
+            var dir = $"Triangulation of {triangles.Count}";
+            //if (!Directory.Exists(dir))
+            //    Directory.CreateDirectory(dir);
+
+            //using (var writer = new StreamWriter($"{dir}/{filename}.txt"))
+            //    foreach (var triangle in triangles)
+            //        writer.WriteLine(triangle.Polymer.ToPythonList());
+
+            //Windows.Storage.StorageFolder rootFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
+            //Windows.Storage.StorageFolder subFolder = await rootFolder.CreateFolderAsync(dir);
         }
         #endregion
 
