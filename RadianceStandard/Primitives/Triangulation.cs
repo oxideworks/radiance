@@ -1,8 +1,8 @@
 ﻿using RadianceStandard.IRender;
 using RadianceStandard.Utilities;
+using Serilog;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace RadianceStandard.Primitives
@@ -29,7 +29,7 @@ namespace RadianceStandard.Primitives
         }
 
         private IStaticRenderer staticRenderer;
-        public Triangulation(IHardenedPolymer polymer, IDynamicRenderer renderer)
+        public Triangulation(Ic HardenedPolymer polymer, IDynamicRenderer renderer)
             : this()
         {
             // do same as Triangulation(IHardenedPolymer polymer)
@@ -128,6 +128,17 @@ namespace RadianceStandard.Primitives
 
             //Windows.Storage.StorageFolder rootFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
             //Windows.Storage.StorageFolder subFolder = await rootFolder.CreateFolderAsync(dir);
+
+            var log = new LoggerConfiguration()
+            .WriteTo.File($"logs/{filename}.txt")
+            .WriteTo.Console()
+            .WriteTo.Debug()
+            .CreateLogger();
+            var text = triangles
+                .Select(s => s.Polymer.ToPythonList())
+                .Aggregate((acc, s) => acc += $"{s}{Environment.NewLine}");
+            log.Information(text);
+
         }
         #endregion
 
@@ -156,9 +167,14 @@ namespace RadianceStandard.Primitives
             if (points.Count > cache.Length * GlobalConsts.CACHE_EXPANSION_CONSTANT)
                 ResizeCache();
         }
-
+        
+        private readonly string kek = "kek";
+        public string lul = "lul";
+        
         private void ResizeCache()
         {
+            var lel = "lel";
+            Console.WriteLine(lel + kek + lul);
             Triangle[,] newCache = new Triangle[cacheSize * 2, cacheSize * 2];
             for (int i = 0; i < cacheSize; i++)
                 for (int j = 0; j < cacheSize; j++)

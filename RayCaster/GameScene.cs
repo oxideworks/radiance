@@ -98,7 +98,7 @@ namespace RayCaster
             var segments = new List<(float x1, float y1, float x2, float y2)>();
             foreach (var obs in obstacles)
                 segments.AddRange(obs.ChopSegments());
-
+            
             var result = new List<Vector2>();
             foreach (var ray in rays)
             {
