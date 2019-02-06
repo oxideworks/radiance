@@ -29,7 +29,7 @@ namespace RadianceStandard.Primitives
         }
 
         private IStaticRenderer staticRenderer;
-        public Triangulation(Ic HardenedPolymer polymer, IDynamicRenderer renderer)
+        public Triangulation(IHardenedPolymer polymer, IDynamicRenderer renderer)
             : this()
         {
             // do same as Triangulation(IHardenedPolymer polymer)
