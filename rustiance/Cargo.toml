@@ -1,0 +1,7 @@
+[package]
+name = "rustiance"
+version = "0.1.0"
+authors = ["Orsen <github.com/orsenkucher>"]
+edition = "2018"
+
+[dependencies]
