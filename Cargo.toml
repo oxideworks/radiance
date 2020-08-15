@@ -1,0 +1,7 @@
+[workspace]
+
+members = [
+  "radiance-core",
+  "radiance-wasm",
+  "radiance-ash",
+]
